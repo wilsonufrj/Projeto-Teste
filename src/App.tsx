@@ -6,6 +6,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import './App.css';
 import TextField from './components/TextField';
+import SelectOptions from './components/SelectOptions';
 
 function App() {
   const [value, setValue] = useState<string>("")
@@ -13,7 +14,7 @@ function App() {
 
   return (
     <div>
-      <Stack spacing={2}>
+      {/* <Stack spacing={2}>
         <Button variant="contained" sx={{ width: '230px' }} >Criar Deck</Button>
         <Button variant="outlined">Outlined</Button>
         <Button disabled endIcon={<ArrowForwardIcon/>}>Prosseguir </Button>
@@ -26,6 +27,24 @@ function App() {
       <Stack direction={'row'} sx={{ gap: '60px', width: '100%' }} justifyContent={'center'}>
         <TextField value={value} onChange={setValue} label="1a simulação da S. Sint" />
         <TextField value={value2} onChange={setValue2} label="2a simulação da S. Sint" />
+      </Stack> */}
+      <Stack sx={{ display: 'flex', justifyContent: 'space-around' }}
+        direction={'row'}>
+        <SelectOptions
+          label="Versão do NEWAVE"
+          value={value}
+          placeholder='Selecione a versão'
+          onChange={(val) => setValue(val)}
+          options={['Opção 1', 'Opção 2', 'Opção 3']}
+        />
+
+        <SelectOptions
+          label="Versão do NEWAVE"
+          value={value}
+          placeholder='Selecione a versão'
+          onChange={(val) => setValue(val)}
+          options={['Opção 1', 'Opção 2', 'Opção 3']}
+        />
       </Stack>
     </div>
   )

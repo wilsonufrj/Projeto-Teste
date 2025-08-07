@@ -6,7 +6,6 @@ const theme = createTheme({
       main: '#0088CC',  //Azul Xlibs
       dark: '#1565c0',
       contrastText: '#ffffff',
-    
     },
     secondary: {
       main: '#9c27b0', // Roxo padrão
@@ -16,17 +15,20 @@ const theme = createTheme({
     },
     background: {
       default: '#f5f5f5', // Cor de fundo padrão
-      paper: '#ffffff', 
+      paper: '#ffffff',
     },
     action: {
       disabledBackground: '#BAC8CE', // Fundo desativado
       disabled: '#ffffff', // Cor do texto desativado   
     },
-   text: {
+    text: {
       primary: '#000000', // Preto para texto primário
       secondary: '#757575',
-   },
-    divider: '#8EA4AF', // Cor do divisor
+    },
+    grey: {
+      100: '#8DA3AE',
+      300: '#8EA4AF'
+    }
   },
   typography: {
     fontFamily: '"Prompt"', // Fonte padrão

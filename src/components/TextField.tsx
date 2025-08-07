@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { FormControlLabel, Input as MuiInput, type InputProps,type FormControlLabelProps } from '@mui/material';
+import { FormControlLabel, Input as MuiInput, type InputProps, type FormControlLabelProps } from '@mui/material';
 import React from 'react';
 
 interface TextFieldProps extends Omit<FormControlLabelProps, 'control' | 'label' | 'onChange'> {
@@ -11,7 +11,7 @@ interface TextFieldProps extends Omit<FormControlLabelProps, 'control' | 'label'
 
 const CustomInput = styled(MuiInput)<InputProps>(({ theme }) => ({
   borderRadius: '10px',
-  border: `1px solid ${theme.palette.divider}`,
+  border: `1px solid ${theme.palette.grey[300]}`,
   boxDecoration: 'none',
   padding: '15px 20px 15px 20px',
   '&::before, &::after': {
@@ -28,7 +28,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
       labelPlacement='start'
       label={label}
       control={
-        <CustomInput 
+        <CustomInput
           value={value}
           onChange={(e) => onChange(e.target.value)}
           {...inputProps}
@@ -39,7 +39,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
         '& .MuiFormControlLabel-label': {
           marginRight: '30px',
         },
-        ...formControlLabelProps.sx // Mescla os estilos sx passados como prop
+        ...formControlLabelProps.sx
       }}
     />
   );
