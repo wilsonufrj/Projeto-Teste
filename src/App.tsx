@@ -1,16 +1,27 @@
 import { useState } from 'react'
 import Stack from '@mui/material/Stack';
 import Button from './components/Button';
-import { Box } from '@mui/material';
+import { Box} from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import './App.css';
-import TextField from './components/TextField';
 import FileUpload from './components/FileUpload/FileUpload';
-
+import type { UploadFile } from './components/FileUpload/fileUploadSlice';
+import { type TabComponent } from './components/Tab/Tab';
+import Tabs from './components/Tab/Tab';
+import InformacoesIniciais from './pages/InformacoesIniciais';
+import GerenciadorPL from './pages/GerenciadorPL';
 function App() {
-  const [value, setValue] = useState<string>("")
-  const [value2, setValue2] = useState<string>("")
+
+  const tabs = [
+    {label:"Semanal",component: <h1>Semanal</h1>},
+    {label:"Mensal",component:  <h1>Mensal</h1>}
+  ] 
+
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   return (
     <div>
@@ -29,7 +40,16 @@ function App() {
         <TextField value={value2} onChange={setValue2} label="2a simulação da S. Sint" />
       </Stack>
     */}
-  </div>)
+
+
+      {/* <FileUpload direction='bottom'/> */}
+
+      <Stack>
+       <InformacoesIniciais/>
+       <GerenciadorPL/>
+      </Stack>
+
+    </div>)
 }
 
 export default App;

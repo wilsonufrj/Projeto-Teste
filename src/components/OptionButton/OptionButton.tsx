@@ -1,5 +1,7 @@
 import React from "react";
-import { Box, Button, SxProps, Theme, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import type { SxProps } from "@mui/material";
+import type { Theme } from "@mui/material";
 import InfoIcon from '@mui/icons-material/Info';
 import InfoPopover from "../InfoPopover/InfoPopover";
 

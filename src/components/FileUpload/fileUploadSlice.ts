@@ -1,4 +1,3 @@
-
 export type FileStatus = 'uploading' | 'success' | 'error';
 
 export interface UploadFile {

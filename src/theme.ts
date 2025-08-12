@@ -5,7 +5,8 @@ const theme = createTheme({
     primary: {
       main: '#0088CC',  //Azul Xlibs
       dark: '#1565c0',
-      contrastText: '#ffffff',
+      light: '#FAFAFA',
+      contrastText:'#eceff1'
     },
     secondary: {
       main: '#9c27b0', // Roxo padrão
@@ -27,7 +28,8 @@ const theme = createTheme({
     },
     grey: {
       100: '#8DA3AE',
-      300: '#8EA4AF'
+      300: '#8EA4AF',
+      500:'#637883'
     }
   },
   typography: {
