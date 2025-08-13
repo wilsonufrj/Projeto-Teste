@@ -5,9 +5,10 @@ import {
     type SelectProps,
     FormControlLabel,
     type FormControlLabelProps,
-    MenuItem
+    MenuItem,
+    useTheme,
+    type SxProps
 } from "@mui/material";
-import theme from '../theme';
 
 interface SelectOptionsProps extends Omit<FormControlLabelProps, 'control' | 'label' | 'onChange'> {
     label?: React.ReactNode;
@@ -15,6 +16,7 @@ interface SelectOptionsProps extends Omit<FormControlLabelProps, 'control' | 'la
     placeholder?: string;
     onChange: (value: string) => void;
     options?: string[];
+    boxOptionSx?: SxProps
 }
 
 const CustomSelectOtions = styled(MuiSelect)<SelectProps>(({ theme }) => ({
@@ -22,7 +24,6 @@ const CustomSelectOtions = styled(MuiSelect)<SelectProps>(({ theme }) => ({
     display: 'flex',
     height: '60px',
     borderRadius: '10px',
-    border: `1px solid ${theme.palette.grey[300]}`,
     '& .MuiSelect-icon': {
         color: theme.palette.primary.main,
         fontSize: '2rem',
@@ -39,15 +40,18 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
     placeholder,
     onChange,
     options = [],
+    boxOptionSx,
     sx,
     ...formControlLabelProps
 }) => {
+    const theme = useTheme()
     return (
         <FormControlLabel
             labelPlacement='start'
             label={label}
             control={
                 <CustomSelectOtions
+                    sx={boxOptionSx}
                     value={value}
                     IconComponent={ArrowDropDownIcon}
                     displayEmpty
@@ -57,7 +61,7 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
                     }}
                 >
                     <MenuItem value="" disabled>
-                        <span style={{ color: `${theme.palette.grey[100]}` }}>{placeholder}</span>
+                        <span style={{ color: `${theme.palette.grey[600]}` }}>{placeholder}</span>
                     </MenuItem>
                     {
                         options.map((option) => {

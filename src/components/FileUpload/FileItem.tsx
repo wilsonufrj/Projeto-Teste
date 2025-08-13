@@ -8,11 +8,11 @@ import {
     type BoxProps,
 } from '@mui/material';
 import { type UploadFile } from './fileUploadSlice';
-import Button from '../Button';
+import Button from '../Button/Button';
 
 interface PropsItem {
     file: UploadFile;
-    onRemove:()=>void;
+    onRemove: () => void;
 }
 
 const getColor = (status: string) => {
@@ -56,13 +56,13 @@ const TrashIcon = (props: any) => {
     )
 }
 
-const getUploadStatusText = (file:any) => {
-  if (file.status === 'error') return file.error;
-  if (file.progress === 100) return '100% - Concluído';
-  return `${file.progress}%`;
+const getUploadStatusText = (file: any) => {
+    if (file.status === 'error') return file.error;
+    if (file.progress === 100) return '100% - Concluído';
+    return `${file.progress}%`;
 };
 
-const FileItem: React.FC<PropsItem> = ({ file,onRemove }) => {
+const FileItem: React.FC<PropsItem> = ({ file, onRemove }) => {
     const theme = useTheme();
 
     return (
@@ -92,7 +92,7 @@ const FileItem: React.FC<PropsItem> = ({ file,onRemove }) => {
                         color: file.status === 'error' ? 'error.main' : `${theme.palette.grey[500]}`,
                     }}
                 >
-                   {getUploadStatusText(file)}
+                    {getUploadStatusText(file)}
                 </Typography>
             </Box>
 

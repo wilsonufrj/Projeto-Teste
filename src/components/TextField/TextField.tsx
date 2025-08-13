@@ -14,8 +14,12 @@ const CustomInput = styled(MuiInput)<InputProps>(({ theme }) => ({
   border: `1px solid ${theme.palette.grey[300]}`,
   boxDecoration: 'none',
   padding: '15px 20px 15px 20px',
+  backgroundColor: `${theme.palette.background.default}`,
   '&::before, &::after': {
     display: 'none',
+  },
+  '&.Mui-focused': {
+    border: `1px solid ${theme.palette.primary.main}`,
   },
 }));
 

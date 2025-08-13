@@ -8,6 +8,7 @@ const CustomButton = styled(MuiButton)<ButtonProps>(({ theme, variant }) => ({
     padding: '10px 20px 10px 20px',
     fontSize: '14px',
     fontFamily: theme.typography.fontFamily,
+    textTransform: 'none',
     fontWeight: 400,
     transition: theme.transitions.create(['background-color', 'box-shadow', 'border-color', 'color'], {
         duration: theme.transitions.duration.short,

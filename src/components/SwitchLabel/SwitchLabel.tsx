@@ -23,7 +23,7 @@ const SwitchLabel: React.FC<SwitchLabelProps> = ({ label, message, checked, onCh
                 label={label}
                 control={
                     <IOSSwitch
-                        sx={{ m: 1 }}
+                        sx={{ m: 2 }}
                         checked={checked}
                         onChange={onChange}
                         disabled={disabled}
@@ -40,9 +40,9 @@ const SwitchLabel: React.FC<SwitchLabelProps> = ({ label, message, checked, onCh
                 disabled={disabled}
             />
             {message && (
-                <>
+                <Box sx={{ mt: 1 }}>
                     <InfoPopover message={message} IconComponent={InfoIcon} />
-                </>
+                </Box>
             )}
         </Box>
     );

@@ -1,55 +1,46 @@
-import { useState } from 'react'
-import Stack from '@mui/material/Stack';
-import Button from './components/Button';
-import { Box} from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import './App.css';
-import FileUpload from './components/FileUpload/FileUpload';
-import type { UploadFile } from './components/FileUpload/fileUploadSlice';
-import { type TabComponent } from './components/Tab/Tab';
-import Tabs from './components/Tab/Tab';
 import InformacoesIniciais from './pages/InformacoesIniciais';
 import GerenciadorPL from './pages/GerenciadorPL';
+import StickySectionNavigator from './components/StickySectionNavigator/StickySectionNavigator';
+import TitleDescription from './components/TitleDescription/TitleDescription';
+import { Box } from '@mui/material';
+import TrocaArquivos from './pages/TrocaArquivos';
+import TendenciaHidrologia from './pages/TendenciaHidrologica';
+import PlanilhaResultado from './pages/PlanilhaResultados';
 function App() {
-
-  const tabs = [
-    {label:"Semanal",component: <h1>Semanal</h1>},
-    {label:"Mensal",component:  <h1>Mensal</h1>}
-  ] 
-
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
+  const SECTIONS = [
+    { id: 'informacoes-iniciais-section', label: 'Informações iniciais', component: <InformacoesIniciais /> },
+    {
+      id: 'gerenciador-pl-section', label: 'Gerenciador de PL', component: <GerenciadorPL />
+    },
+    { id: 'troca-versao-section', label: 'Troca de versão', component: <TrocaArquivos /> },
+    { id: 'virada-anos-section', label: 'Virada de anos', component: <></> },
+    { id: 'tendencia-hidrologica-section', label: 'Tendência hidrológica', component: <TendenciaHidrologia /> },
+    { id: 'planilhas-resultados-section', label: 'Planilhas de resultados', component: <PlanilhaResultado /> },
+  ];
   return (
-    <div>
-      {/* <Stack spacing={2}>
-        <Button variant="contained" sx={{ width: '230px' }} >Criar Deck</Button>
-        <Button variant="outlined">Outlined</Button>
-        <Button disabled endIcon={<ArrowForwardIcon/>}>Prosseguir </Button>
-        <Stack direction="row" spacing={2}>
-          <Button startIcon={<ArrowBackIcon />} variant="outlined" onClick={()=>console.log("Cliquei em voltar")}sx={{ width: '115px' }} >Voltar</Button>
-          <Button endIcon={<ArrowForwardIcon/>} variant="contained" onClick={()=>console.log("Cliquei em avançar")} sx={{ width: '115px' }}>Avançar</Button>
-        </Stack>
-      </Stack>
+    <Box margin={10} padding={10}>
+      <Box sx={{ marginBottom: '20px' }}>
+        <TitleDescription
+          title="NEWAVE"
+          description="Preencha as informações que servirão de base para a construção do fluxo de caixa ao 
+                    longo do horizonte da análise. A definição dos parâmetros: data inicial do investimento, vida útil, 
+                    período de estudo e taxa de desconto são essenciais para a garantir a consistência da análise."
+        />
+      </Box>
 
-      <Stack direction={'row'} sx={{ gap: '60px', width: '100%' }} justifyContent={'center'}>
-        <TextField value={value} onChange={setValue} label="1a simulação da S. Sint" />
-        <TextField value={value2} onChange={setValue2} label="2a simulação da S. Sint" />
-      </Stack>
-    */}
+      {/* Menu Lateral */}
+      <StickySectionNavigator
+        sections={SECTIONS.map(({ id, label }) => ({ id, label }))}
+      >
+        {SECTIONS.map(({ id, component }) => (
+          <Box key={id} id={id} sx={{ mb: 4 }}>
+            {component}
+          </Box>
+        ))}
+      </StickySectionNavigator>
 
-
-      {/* <FileUpload direction='bottom'/> */}
-
-      <Stack>
-       <InformacoesIniciais/>
-       <GerenciadorPL/>
-      </Stack>
-
-    </div>)
+    </Box>
+  )
 }
 
 export default App;

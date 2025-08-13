@@ -5,29 +5,29 @@ import {
     SvgIcon,
     Typography,
     styled,
+    useTheme,
 } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 
 import FileItem from './FileItem';
-import Button from '../Button';
-import theme from '../../theme';
 import type { UploadFile } from './fileUploadSlice';
+import Button from '../Button/Button';
 
 const DropContainer = styled(Box)(({ theme }) => ({
-    border: `2px dashed ${theme.palette.grey[100]}`,
+    border: `2px dashed ${theme.palette.grey[600]}`,
     borderRadius: '10px',
     padding: '30px 80px',
     display: 'flex',
     gap: '31px',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: `${theme.palette.primary.light}`,
+    backgroundColor: `${theme.palette.base.white}`,
     cursor: 'pointer',
 }));
 
 const MyUploadIcon = (props: any) => {
     return (
-        <SvgIcon sx={{ color: `${theme.palette.primary.main}` }} {...props} viewBox="0 0 27 28">
+        <SvgIcon sx={{ color: `${props.theme.palette.primary.main}` }} {...props} viewBox="0 0 27 28">
             <path d="M11.875 20.75V6.99687L7.65 11.3844L5.375 8.9375L13.5 0.5L21.625 8.9375L19.35 11.3844L15.125 6.99687V20.75H11.875ZM3.75 27.5C2.85625 27.5 2.09142 27.1698 1.4555 26.5094C0.819583 25.8491 0.501083 25.0542 0.5 24.125V19.0625H3.75V24.125H23.25V19.0625H26.5V24.125C26.5 25.0531 26.182 25.8479 25.5461 26.5094C24.9102 27.1709 24.1448 27.5011 23.25 27.5H3.75Z" />
         </SvgIcon>
     );
@@ -43,13 +43,14 @@ declare interface FileUploadProps {
     maxFileSize?: number;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ 
+const FileUpload: React.FC<FileUploadProps> = ({
     direction = 'right',
     multiple = true,
     maxFiles = 5,
     acceptedFileTypes = ['image/*', 'application/pdf'],
     maxFileSize = 5 * 1024 * 1024, // 5MB
 }) => {
+    const theme = useTheme();
     const [files, setFiles] = useState<UploadFile[]>([]);
 
     const simulateUpload = (fileId: string) => {
@@ -57,8 +58,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
         const interval = setInterval(() => {
             progress += 10;
             if (progress <= 100) {
-                setFiles(prevFiles => 
-                    prevFiles.map(file => 
+                setFiles(prevFiles =>
+                    prevFiles.map(file =>
                         file.id === fileId ? { ...file, progress } : file
                     )
                 );
@@ -66,14 +67,14 @@ const FileUpload: React.FC<FileUploadProps> = ({
             if (progress === 100) {
                 clearInterval(interval);
                 const isError = Math.random() < 0.2;
-                setFiles(prevFiles => 
-                    prevFiles.map(file => 
-                        file.id === fileId 
-                            ? { 
-                                ...file, 
+                setFiles(prevFiles =>
+                    prevFiles.map(file =>
+                        file.id === fileId
+                            ? {
+                                ...file,
                                 status: isError ? 'error' : 'success',
                                 error: isError ? 'Erro ao carregar arquivo' : undefined
-                            } 
+                            }
                             : file
                     )
                 );
@@ -109,14 +110,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
         }));
 
         setFiles(prevFiles => [...prevFiles, ...newFiles]);
-        
-        // Simular upload para cada novo arquivo
+
         newFiles.forEach(newFile => {
             simulateUpload(newFile.id);
         });
     };
 
-    const { getRootProps, getInputProps, open } = useDropzone({ 
+    const { getRootProps, getInputProps, open } = useDropzone({
         onDrop,
         noClick: true,
         noKeyboard: true,
@@ -136,10 +136,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 }}>
                     <DropContainer {...getRootProps()} sx={{ flex: 1 }}>
                         <input {...getInputProps()} />
-                        <MyUploadIcon fontSize="medium" />
+                        <MyUploadIcon theme={theme} fontSize="medium" />
                         <Typography variant="body1">
-                            {multiple 
-                                ? 'Arraste o(s) arquivo(s) aqui' 
+                            {multiple
+                                ? 'Arraste o(s) arquivo(s) aqui'
                                 : 'Arraste um arquivo aqui'}
                         </Typography>
                     </DropContainer>
@@ -154,10 +154,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 <Stack>
                     <DropContainer {...getRootProps()} sx={{ flex: 1 }}>
                         <input {...getInputProps()} />
-                        <MyUploadIcon fontSize="medium" />
+                        <MyUploadIcon theme={theme} fontSize="medium" />
                         <Typography variant="body1">
-                            {multiple 
-                                ? 'Arraste o(s) arquivo(s) aqui' 
+                            {multiple
+                                ? 'Arraste o(s) arquivo(s) aqui'
                                 : 'Arraste um arquivo aqui'}
                         </Typography>
                     </DropContainer>
@@ -172,9 +172,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
             <Box mt={4}>
                 {files.map((file) => (
-                    <FileItem 
-                        key={file.id} 
-                        file={file} 
+                    <FileItem
+                        key={file.id}
+                        file={file}
                         onRemove={() => handleRemoveFile(file.id)}
                     />
                 ))}

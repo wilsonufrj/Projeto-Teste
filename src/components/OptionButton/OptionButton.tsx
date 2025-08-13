@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
-import type { SxProps } from "@mui/material";
-import type { Theme } from "@mui/material";
+import { Box, Typography, type SxProps } from "@mui/material";
 import InfoIcon from '@mui/icons-material/Info';
+import Button from "../Button/Button";
 import InfoPopover from "../InfoPopover/InfoPopover";
+import type { Theme } from "@emotion/react";
 
 export interface OptionButtonItem {
     id: number;
@@ -21,7 +21,7 @@ interface OptionButtonProps {
     labelClassName?: string;
     optionClassName?: string;
     getButtonRef?: (el: HTMLElement | null) => void;
-    buttonSx?: SxProps<Theme>;
+    sx?: SxProps<Theme>;
 }
 
 export const OptionButton: React.FC<OptionButtonProps> = ({
@@ -30,12 +30,12 @@ export const OptionButton: React.FC<OptionButtonProps> = ({
     onChange,
     label,
     message,
-    horizontal = false,
+    horizontal = true,
     labelPosition = "side",
     labelClassName,
     optionClassName,
     getButtonRef,
-    buttonSx
+    sx
 }) => {
     const isLabelAbove = labelPosition === "above";
     return (
@@ -44,6 +44,9 @@ export const OptionButton: React.FC<OptionButtonProps> = ({
             flexDirection={isLabelAbove ? "column" : "row"}
             alignItems={isLabelAbove ? "flex-start" : "baseline"}
             gap={isLabelAbove ? 2 : 1}
+            sx={{
+                ...sx
+            }}
         >
             {/* Label */}
             {label && (
@@ -76,13 +79,7 @@ export const OptionButton: React.FC<OptionButtonProps> = ({
                         variant={value === item.id ? "contained" : "outlined"}
                         onClick={() => onChange(item.id)}
                         className={optionClassName}
-                        sx={{
-                            textTransform: "none",
-                            fontWeight: value === item.id ? "bold" : "normal",
-                            width: horizontal ? "auto" : "100%",
-                            backgroundColor: value === item.id ? "#0088cc" : "#fff",
-                            ...buttonSx
-                        }}
+                        sx={{ borderRadius: '30px' }}
                     >
                         {item.descricao}
                     </Button>

@@ -1,9 +1,8 @@
 import { Box, Stack, Typography } from "@mui/material";
-import SelectOptions from "../components/SelectOptions";
 import { useState } from "react";
-import TextField from "../components/TextField";
-import { OptionButton } from "../components/OptionButton/OptionButton";
 import SwitchLabel from "../components/SwitchLabel/SwitchLabel";
+import SelectOptions from "../components/SelectOptions/SelectOptions";
+import TextField from "../components/TextField/TextField";
 
 const InformacoesIniciais = () => {
 
@@ -19,10 +18,10 @@ const InformacoesIniciais = () => {
     const options = ['1.0.0', '1.1.0', '1.2.0', '1.3.0']
 
     return (
-        <Box>
+        <Box sx={{ width: '75%' }}>
             <Stack spacing={"30px"}>
                 <Box sx={{ display: "flex", justifySelf: 'start' }}>
-                    <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '59px' }}>Informações iniciais</Typography>
+                    <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '39px' }}>Informações iniciais</Typography>
                 </Box>
                 <Box sx={{ display: "flex", justifySelf: 'start' }}
                 >
@@ -32,6 +31,7 @@ const InformacoesIniciais = () => {
                         options={options}
                         placeholder="Selecione a versão"
                         onChange={setVersao}
+                        boxOptionSx={{ width: '294px' }}
                     />
                 </Box>
 

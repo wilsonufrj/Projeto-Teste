@@ -3,10 +3,10 @@ import {
     Box,
     Typography,
     Button,
-    SxProps,
-    Theme
+    type SxProps,
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import type { Theme } from '@emotion/react';
 
 interface Section {
     id: string;
