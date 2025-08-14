@@ -1,9 +1,6 @@
+import { SwitchLabel, OptionButton, Datepicker } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material";
-import SwitchLabel from "../components/SwitchLabel/SwitchLabel";
 import { useState } from "react";
-import TextField from "../components/TextField/TextField";
-import { OptionButton } from "../components/OptionButton/OptionButton";
-import { DatePicker } from "../components/DatePickers/Datepicker";
 
 const TendenciaHidrologia = () => {
 
@@ -50,7 +47,7 @@ const TendenciaHidrologia = () => {
                             message="Switch para diminuir automaticamente o horizonte de estudo"
                             onChange={(_event, checked) => setTipoVazpast(checked)} />
 
-                        <DatePicker
+                        <Datepicker
                             title='Data de início'
                             titlePosition="side"
                             dateDefault={"02/03/2025"}

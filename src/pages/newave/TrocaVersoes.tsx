@@ -1,9 +1,6 @@
+import { AddableRows, Datepicker, SelectOptions } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material";
-import { DatePicker } from "../components/DatePickers/Datepicker";
-import AddableRows from "../components/AddableRows/AddableRows";
 import { useState } from "react";
-import TextField from "../components/TextField/TextField";
-import SelectOptions from "../components/SelectOptions/SelectOptions";
 
 
 type UserItem = { id: string; nome: string; email: string };
@@ -47,7 +44,7 @@ const TrocaVersoes = () => {
                     renderContent={({ item, index, update }) => ({
                         header: (
                             <Box sx={{ display: 'flex', alignContent: 'center' }}>
-                                <DatePicker
+                                <Datepicker
                                     title='Período'
                                     titlePosition="side"
                                     dateDefault={"02/03/2025"}

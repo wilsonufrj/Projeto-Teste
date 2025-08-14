@@ -1,8 +1,6 @@
+import { FileUpload, OptionButton, SwitchLabel } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material";
-import FileUpload from "../components/FileUpload/FileUpload";
 import { useState } from "react";
-import SwitchLabel from "../components/SwitchLabel/SwitchLabel";
-import { OptionButton } from "../components/OptionButton/OptionButton";
 
 const GerenciadorPL = () => {
 

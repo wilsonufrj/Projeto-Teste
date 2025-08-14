@@ -1,8 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { useState } from "react";
-import SwitchLabel from "../components/SwitchLabel/SwitchLabel";
-import SelectOptions from "../components/SelectOptions/SelectOptions";
-import TextField from "../components/TextField/TextField";
+import { SelectOptions, SwitchLabel, TextField } from "@cepel/cepel-react-components";
 
 const InformacoesIniciais = () => {
 

@@ -1,8 +1,6 @@
+import { SwitchCard, SwitchLabel, type SwitchItem } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material";
-import SwitchLabel from "../components/SwitchLabel/SwitchLabel";
 import { useState } from "react";
-import type { SwitchItem } from "../components/SwitchCard/SwitchCard";
-import SwitchCard from "../components/SwitchCard/SwitchCard";
 
 const PlanilhaResultado = () => {
     const [selecionarTodas, setSelecionarTodas] = useState<boolean>(false);
@@ -104,7 +102,7 @@ const PlanilhaResultado = () => {
                             title="Custo Marginal de Operacao"
                             switches={custoMarginalOperacao}
                             onToggle={(id) => handleToggle(id, setCustoMarginalOperacao)}
-                            contentSx={{ justifyContent: 'flex-start', alignContent: 'flex-start' }}
+                        //contentSx={{ justifyContent: 'flex-start', alignContent: 'flex-start' }}
                         />
 
                         <SwitchCard
