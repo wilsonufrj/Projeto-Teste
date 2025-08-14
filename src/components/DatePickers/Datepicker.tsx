@@ -7,9 +7,10 @@ import {
   InputAdornment,
   IconButton,
   Typography,
+  type SxProps,
+  type Theme,
 } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import InputMask from "react-input-mask";
 import {
   CancelButton,
   Container,
@@ -35,6 +36,7 @@ type Props = {
   minDate?: Date;
   titlePosition?: "top" | "side";
   message?: string;
+  sx?: SxProps<Theme>;
 };
 
 type DateMaskProps = {
@@ -53,7 +55,8 @@ export const DatePicker: React.FC<Props> = ({
   maxDate,
   minDate,
   titlePosition = "side",
-  message
+  message,
+  sx
 }) => {
   const [selectedDate, setSelectedDate] = useState(
     dateDefault ? parseDate(dateDefault) : null
@@ -146,7 +149,7 @@ export const DatePicker: React.FC<Props> = ({
   const MaskComp = React.useMemo(() => DateMask, []);
 
   return (
-    <Container sx={{ pt: 2, padding: 0 }} disabled={disabled}>
+    <Container sx={{ pt: 2, ...sx }} disabled={disabled}>
       <Box
         ref={anchorRef}
         sx={{
@@ -170,7 +173,7 @@ export const DatePicker: React.FC<Props> = ({
           <Typography
             variant="h6"
             sx={{
-              minWidth: 100,
+              justifyContent: 'center',
             }}
           >
             {title}
@@ -216,7 +219,9 @@ export const DatePicker: React.FC<Props> = ({
             }}
           />
           {titlePosition === "side" && message && (
-            <InfoPopover message={message} IconComponent={InfoIcon} />
+            <Box sx={{ marginTop: '3px' }}>
+              <InfoPopover message={message} IconComponent={InfoIcon} />
+            </Box>
           )}
         </Box>
       </Box>

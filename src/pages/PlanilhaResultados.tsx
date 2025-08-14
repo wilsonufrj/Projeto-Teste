@@ -36,32 +36,34 @@ const PlanilhaResultado = () => {
     ]);
 
     const [geraçãoHidraulica, setGeracaoHidraulica] = useState<SwitchItem[]>([
-        { id: '1', label: 'CMARG', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'CMARG', checked: true, message: 'Informações planilha 2' },
-        { id: '3', label: 'CMARG', checked: true, message: 'Informações planilha 2' },
-        { id: '4', label: 'CMARG', checked: true, message: 'Informações planilha 2' },
-        { id: '5', label: 'CMARG', checked: true, message: 'Informações planilha 2' },
+        { id: '1', label: 'GHIDR', checked: true, message: 'Informações planilha 1' },
+        { id: '2', label: 'GHIDRM', checked: true, message: 'Informações planilha 2' },
+        { id: '3', label: 'GHIDRSIN', checked: true, message: 'Informações planilha 2' },
+        { id: '4', label: 'GHTOT', checked: true, message: 'Informações planilha 2' },
+        { id: '5', label: 'GHTOTM', checked: true, message: 'Informações planilha 2' },
+        { id: '6', label: 'GHTOTSIN', checked: true, message: 'Informações planilha 2' },
 
     ]);
 
     const [geracaoTerminca, setGeracaoTermica] = useState<SwitchItem[]>([
-        { id: '1', label: 'CMARG', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'CMARG', checked: true, message: 'Informações planilha 2' },
+        { id: '1', label: 'GTTOT', checked: true, message: 'Informações planilha 1' },
+        { id: '2', label: 'GTTOTSIN', checked: true, message: 'Informações planilha 2' },
     ]);
 
     const [intercambioSustistemas, setIntercambioSubsistemas] = useState<SwitchItem[]>([
-        { id: '1', label: 'CMARG', checked: true, message: 'Informações planilha 1' }
+        { id: '1', label: 'INT', checked: true, message: 'Informações planilha 1' }
 
     ]);
 
     const [mercadoLiquido, setMercadoLiquido] = useState<SwitchItem[]>([
-        { id: '1', label: 'CMARG', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'CMARG', checked: true, message: 'Informações planilha 2' }
+        { id: '1', label: 'MERCL', checked: true, message: 'Informações planilha 1' },
+        { id: '2', label: 'CMERCLSIN', checked: true, message: 'Informações planilha 2' }
     ]);
 
     const [vertimentoTurbinavel, setVertimentoTurbinavel] = useState<SwitchItem[]>([
-        { id: '1', label: 'CMARG', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'CMARG', checked: true, message: 'Informações planilha 2' }
+        { id: '1', label: 'VERTURBM', checked: true, message: 'Informações planilha 1' },
+        { id: '2', label: 'VERTURBNW', checked: true, message: 'Informações planilha 2' },
+        { id: '2', label: 'VERTURBSIN', checked: true, message: 'Informações planilha 2' }
     ]);
 
     const handleToggle = (
@@ -77,8 +79,8 @@ const PlanilhaResultado = () => {
 
     return (
         <Box sx={{ width: '100' }}>
-            <Box sx={{ display: "flex", justifySelf: 'start', marginBottom: '43px' }}>
-                <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '59px' }}>
+            <Box sx={{ display: "flex", justifySelf: 'start', marginBottom: '60px' }}>
+                <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%" }}>
                     Planilha de resultados
                 </Typography>
             </Box>

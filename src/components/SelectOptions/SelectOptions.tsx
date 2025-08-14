@@ -24,6 +24,7 @@ const CustomSelectOtions = styled(MuiSelect)<SelectProps>(({ theme }) => ({
     display: 'flex',
     height: '60px',
     borderRadius: '10px',
+    backgroundColor: `${theme.palette.background.default}`,
     '& .MuiSelect-icon': {
         color: theme.palette.primary.main,
         fontSize: '2rem',

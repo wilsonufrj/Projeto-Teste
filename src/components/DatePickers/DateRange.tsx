@@ -8,6 +8,8 @@ import {
   InputAdornment,
   IconButton,
   Typography,
+  SxProps,
+  Theme,
 } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { isValid, isAfter } from "date-fns";
@@ -26,8 +28,6 @@ import { customLocale } from "./utils/customLocale";
 import { formatDate, parseDate } from "./utils/formatDate";
 import InfoPopover from "../InfoPopover/InfoPopover";
 import InfoIcon from "@mui/icons-material/Info";
-
-
 import { IMaskInput } from "react-imask";
 import { assignRef } from "./utils/util";
 
@@ -54,6 +54,7 @@ type Props = {
   tooltipDisabled?: string;
   titlePosition?: "top" | "side";
   message?: string;
+  sx?: SxProps<Theme>;
 };
 
 const enum TypeInput {
@@ -113,6 +114,7 @@ export const DateRange: React.FC<Props> = ({
   tooltipDisabled,
   titlePosition = "side",
   message,
+  sx
 }) => {
   const [state, setState] = useState([
     {
@@ -221,7 +223,7 @@ export const DateRange: React.FC<Props> = ({
   const fixedAnchorEl = firstAnchor.anchorEl ?? anchorRef.current;
 
   return (
-    <Container sx={{ pt: 2 }} disabled={disabled}>
+    <Container sx={{ pt: 2, ...sx }} disabled={disabled}>
       <Box
         ref={anchorRef}
         sx={{

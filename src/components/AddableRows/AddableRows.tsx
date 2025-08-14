@@ -4,6 +4,7 @@ import {
   Stack, Paper, Typography, IconButton, Box,
   type ButtonProps,
   type PaperProps,
+  useTheme,
 } from '@mui/material';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import AddIcon from '@mui/icons-material/Add';
@@ -50,7 +51,7 @@ export default function AddableRows<T>({
   const isControlled = value !== undefined;
   const [internal, setInternal] = React.useState<T[]>(defaultValue);
   const items = isControlled ? (value as T[]) : internal;
-
+  const theme = useTheme();
   const emit = (next: T[]) => {
     if (!isControlled) setInternal(next);
     onChange?.(next);
@@ -77,11 +78,17 @@ export default function AddableRows<T>({
       <Button
         variant="contained"
         size="large"
-        endIcon={<Box component="span" className="add-icon-container">
-          <AddIcon className="add-icon" />
+        endIcon={<Box sx={{
+          display: 'flex',
+          alignContent: 'center',
+          backgroundColor: `${theme.palette.background.paper}`,
+          color: `${theme.palette.primary.main}`,
+          borderRadius: '15px'
+        }} className="add-icon-container">
+          <AddIcon sx={{ width: '20px', height: '20px' }} className="add-icon" />
         </Box>}
         onClick={add}
-        sx={{ display: 'flex' }}
+        sx={{ display: 'flex', alignContent: 'center' }}
         disabled={!!maxItems && items.length >= maxItems}
         {...addButtonProps}
       >
@@ -94,7 +101,6 @@ export default function AddableRows<T>({
 
           const content = renderContent({ item, index, update });
 
-          // Permite que renderContent retorne um objeto com { header, body }
           const headerContent = (content as any)?.header ?? content;
           const bodyContent = (content as any)?.body;
 
@@ -113,7 +119,6 @@ export default function AddableRows<T>({
               }}
               {...paperProps}
             >
-              {/* Header */}
               <Box
                 sx={{
                   display: 'flex',
@@ -121,7 +126,6 @@ export default function AddableRows<T>({
                   gap: 2,
                 }}
               >
-                {/* Número */}
                 <Typography
                   variant="body2"
                   sx={{ color: 'text.secondary', whiteSpace: 'nowrap' }}
@@ -129,17 +133,16 @@ export default function AddableRows<T>({
                   #{index + 1}
                 </Typography>
 
-                {/* Conteúdo do header */}
                 <Box sx={{ flex: 1, display: 'flex', gap: 2 }}>
                   {headerContent}
                 </Box>
 
-                {/* Lixeira */}
                 <IconButton
                   aria-label="Remover"
                   onClick={() => removeAt(index)}
                   size="small"
                   sx={{
+                    width: '40px', height: '40px',
                     bgcolor: '#c6d3db',
                     '&:hover': { bgcolor: '#b8c7d0' },
                   }}
@@ -148,7 +151,6 @@ export default function AddableRows<T>({
                 </IconButton>
               </Box>
 
-              {/* Body opcional */}
               {bodyContent && (
                 <Box sx={{ width: '100%' }}>
                   {bodyContent}

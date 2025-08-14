@@ -1,12 +1,13 @@
 import { Box, Stack, Typography } from "@mui/material";
-import TextField from "../components/TextField/TextField";
-import AddableRows from "../components/AddableRows/AddableRows";
-import React, { useState } from "react";
 import { DatePicker } from "../components/DatePickers/Datepicker";
-import { OptionButton } from "../components/OptionButton/OptionButton";
-import FileUpload from "../components/FileUpload/FileUpload";
+import AddableRows from "../components/AddableRows/AddableRows";
+import { useState } from "react";
+import TextField from "../components/TextField/TextField";
+import SelectOptions from "../components/SelectOptions/SelectOptions";
+
 
 type UserItem = { id: string; nome: string; email: string };
+
 
 const newItem = (): UserItem => ({
     id: globalThis.crypto?.randomUUID?.() ?? String(Math.random()),
@@ -14,24 +15,27 @@ const newItem = (): UserItem => ({
     email: '',
 });
 
-const TrocaArquivos = () => {
+const ViradaAnos = () => {
 
     const [items, setItems] = useState<UserItem[]>([newItem()]);
+    const [nomesArquivos, setNomesArquivos] = useState<string>("");
     const [date, setDate] = useState<Date>();
 
-    const [nomesArquivos, setNomesArquivos] = useState<string>("");
+
+    const [versao, setVersao] = useState<string>("");
+    const options = ['1', '2', '3']
 
     return (
         <Box sx={{ width: '100%' }}>
             <Stack spacing={"30px"}>
                 <Box sx={{ display: "flex", justifySelf: 'start' }}>
                     <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '30px' }}>
-                        Troca Arquivos
+                        Virada de anos
                     </Typography>
                 </Box>
 
                 <AddableRows<UserItem>
-                    addLabel="Adicionar Troca de Arquivos"
+                    addLabel="Adicionar virada de anos"
                     value={items}
                     onChange={setItems}
                     itemFactory={newItem}
@@ -53,20 +57,14 @@ const TrocaArquivos = () => {
                                     message="Selecione uma data válida dentro do período."
                                     sx={{ alignContent: 'center', paddingTop: 0.3 }}
                                 />
-                                <TextField
-                                    label='Nome do Arquivo'
-                                    value={nomesArquivos}
-                                    onChange={setNomesArquivos}
-                                    inputProps={{ sx: { width: '482px' } }}
+                                <SelectOptions
+                                    value={versao}
+                                    label={"Anos de estudo"}
+                                    options={options}
+                                    placeholder="Selecione a quantidade"
+                                    onChange={setVersao}
+                                    boxOptionSx={{ width: '367px' }}
                                 />
-                            </Box>
-                        ),
-                        body: (
-                            <Box sx={{ marginTop: '50px' }}>
-                                <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
-                                    Enviar arquivo
-                                </Typography>
-                                <FileUpload />
                             </Box>
                         )
                     })}
@@ -78,4 +76,4 @@ const TrocaArquivos = () => {
     )
 }
 
-export default TrocaArquivos;
+export default ViradaAnos;

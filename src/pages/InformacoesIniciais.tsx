@@ -21,7 +21,7 @@ const InformacoesIniciais = () => {
         <Box sx={{ width: '75%' }}>
             <Stack spacing={"30px"}>
                 <Box sx={{ display: "flex", justifySelf: 'start' }}>
-                    <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '39px' }}>Informações iniciais</Typography>
+                    <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '30px' }}>Informações iniciais</Typography>
                 </Box>
                 <Box sx={{ display: "flex", justifySelf: 'start' }}
                 >

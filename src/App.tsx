@@ -6,14 +6,17 @@ import { Box } from '@mui/material';
 import TrocaArquivos from './pages/TrocaArquivos';
 import TendenciaHidrologia from './pages/TendenciaHidrologica';
 import PlanilhaResultado from './pages/PlanilhaResultados';
+import TrocaVersoes from './pages/TrocaVersoes';
+import ViradaAnos from './pages/ViradaAnos';
 function App() {
   const SECTIONS = [
     { id: 'informacoes-iniciais-section', label: 'Informações iniciais', component: <InformacoesIniciais /> },
     {
       id: 'gerenciador-pl-section', label: 'Gerenciador de PL', component: <GerenciadorPL />
     },
-    { id: 'troca-versao-section', label: 'Troca de versão', component: <TrocaArquivos /> },
-    { id: 'virada-anos-section', label: 'Virada de anos', component: <></> },
+    { id: 'troca-arquivo-section', label: 'Troca de arquivos', component: <TrocaArquivos /> },
+    { id: 'troca-versao-section', label: 'Troca de versoes', component: <TrocaVersoes /> },
+    { id: 'virada-anos-section', label: 'Virada de anos', component: <ViradaAnos /> },
     { id: 'tendencia-hidrologica-section', label: 'Tendência hidrológica', component: <TendenciaHidrologia /> },
     { id: 'planilhas-resultados-section', label: 'Planilhas de resultados', component: <PlanilhaResultado /> },
   ];

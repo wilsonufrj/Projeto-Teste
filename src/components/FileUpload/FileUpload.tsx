@@ -14,7 +14,7 @@ import type { UploadFile } from './fileUploadSlice';
 import Button from '../Button/Button';
 
 const DropContainer = styled(Box)(({ theme }) => ({
-    border: `2px dashed ${theme.palette.grey[600]}`,
+    border: `2px dashed ${theme.palette.neutrals[600]}`,
     borderRadius: '10px',
     padding: '30px 80px',
     display: 'flex',
@@ -134,7 +134,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                     gap: '30px',
                     width: '100%'
                 }}>
-                    <DropContainer {...getRootProps()} sx={{ flex: 1 }}>
+                    <DropContainer {...getRootProps()} sx={{ flex: 1, backgroundColor: `${theme.palette.background.default}` }}>
                         <input {...getInputProps()} />
                         <MyUploadIcon theme={theme} fontSize="medium" />
                         <Typography variant="body1">

@@ -18,7 +18,7 @@ const GerenciadorPL = () => {
         <Box sx={{ width: '75%' }}>
             <Stack spacing={"30px"}>
                 <Box sx={{ display: "flex", justifySelf: 'start' }}>
-                    <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '39px' }}>
+                    <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '30px' }}>
                         Gerenciador de PL
                     </Typography>
                 </Box>
@@ -60,7 +60,7 @@ const GerenciadorPL = () => {
                     />
 
 
-                    <Box sx={{ marginTop: '60px' }}
+                    <Box sx={{ marginTop: '30px' }}
                     >
                         <OptionButton
                             value={number}

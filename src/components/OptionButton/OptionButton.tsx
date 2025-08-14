@@ -79,7 +79,7 @@ export const OptionButton: React.FC<OptionButtonProps> = ({
                         variant={value === item.id ? "contained" : "outlined"}
                         onClick={() => onChange(item.id)}
                         className={optionClassName}
-                        sx={{ borderRadius: '30px' }}
+                        sx={{ borderRadius: '30px', padding: '10px 50px' }}
                     >
                         {item.descricao}
                     </Button>

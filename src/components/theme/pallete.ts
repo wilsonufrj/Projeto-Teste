@@ -75,6 +75,7 @@ const palette: PaletteOptions = {
     100: "rgb(245 245 245)",
     200: "rgba(216, 224, 227, 1)",
     300: "#BAC8CE",
+    600: '#8DA3AE',
     800: "rgba(99, 120, 131, 1)",
   },
   neutrals: {
