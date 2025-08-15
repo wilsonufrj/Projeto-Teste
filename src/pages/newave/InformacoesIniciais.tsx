@@ -21,8 +21,7 @@ const InformacoesIniciais = () => {
                 <Box sx={{ display: "flex", justifySelf: 'start' }}>
                     <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '30px' }}>Informações iniciais</Typography>
                 </Box>
-                <Box sx={{ display: "flex", justifySelf: 'start' }}
-                >
+                <Box sx={{ display: "flex", justifySelf: 'start' }}>
                     <SelectOptions
                         value={versao}
                         label={"Versão do NEWAVE"}

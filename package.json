@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@cepel/cepel-react-components": "file:cepel-react-component.tgz",
+    "@cepel/cepel-react-components": "file:libTeste2.tgz",
     "@reduxjs/toolkit": "^2.8.2",
     "dayjs": "^1.11.13",
     "react": "^19.1.0",
