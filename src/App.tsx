@@ -5,6 +5,7 @@ import { Tab, DateRange } from '@cepel/cepel-react-components'
 import { Box } from '@mui/material';
 import Gevazp from './pages/gevazp/Gevazp';
 import Decomp from './pages/decomp/Decomp';
+import Dessem from './pages/dessem/Dessem';
 
 function App() {
   const tabsItens = [
@@ -20,7 +21,8 @@ function App() {
       {/* <InformacoesGerais /> */}
       {/* <Newave/> */}
       {/* <Gevazp/> */}
-      <Decomp/>
+      {/* <Decomp/> */}
+      <Dessem/>
       {/* <DateRange
             title="Selecione o Horizonte"
             defaultValues={{ startDate: null, endDate: null }}

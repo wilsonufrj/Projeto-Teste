@@ -1,18 +1,15 @@
-import { StickySectionNavigator, TitleDescription } from '@cepel/cepel-react-components';
+import { StickySectionNavigator, TitleDescription } from "@cepel/cepel-react-components";
 import { Box } from '@mui/material';
-import InformacoesGerais from './InformacoesIniciais';
-import ArquivoDadger from './ArquivoDadger';
-import TrocaArquivos from './TrocaArquivos';
-import TrocaVersoes from './TrocaVersoes';
-import PlanilhaResultado from './PlanilhaResultados';
+import InformacoesIniciais from "./InformacoesIniciais";
+import AtualizacaoDeck from "./AtualizacaoDeck";
+import Cenarios from "./Cenarios";
+import PlanilhaResultado from "./PlanilhaResultados";
 
-const Decomp = ()=>{
-
+const Dessem = ()=>{
     const SECTIONS = [
-        { id: 'informacoes-iniciais-section', label: 'Informações iniciais', component: <InformacoesGerais/> },
-        { id: 'arquivo-dadger-section', label: 'Arquivo Dadger', component: <ArquivoDadger/> },
-        { id: 'troca-arquivo-section', label: 'Troca de arquivo', component: <TrocaArquivos/> },
-        { id: 'troca-versoes-section', label: 'Troca de versão', component: <TrocaVersoes/> },
+        { id: 'informacoes-iniciais-section', label: 'Informações iniciais', component:<InformacoesIniciais/> },
+        { id: 'arquivo-dadger-section', label: 'Atualiza Deck', component: <AtualizacaoDeck/> },
+        { id: 'troca-arquivo-section', label: 'Cenários', component: <Cenarios/> },
         { id: 'planilha-resultado-section', label: 'Planilha de resultados', component: <PlanilhaResultado/> }
 
     ];
@@ -21,7 +18,7 @@ const Decomp = ()=>{
          <Box margin={5}>
             <Box sx={{ marginBottom: '20px' }}>
                 <TitleDescription
-                    title="Decomp"
+                    title="Dessem"
                     description="Preencha as informações que servirão de base para a construção do fluxo de caixa ao 
                     longo do horizonte da análise. A definição dos parâmetros: data inicial do investimento, vida útil, 
                     período de estudo e taxa de desconto são essenciais para a garantir a consistência da análise."
@@ -40,6 +37,7 @@ const Decomp = ()=>{
 
         </Box>
     )
+
 }
 
-export default Decomp;
+export default Dessem;
