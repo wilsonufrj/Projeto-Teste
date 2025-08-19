@@ -18,7 +18,7 @@ function App() {
     };
   return (
     <Box sx={{margin:'5px'}}>
-      {/* <InformacoesGerais /> */}
+      <InformacoesGerais />
       {/* <Newave/> */}
       {/* <Gevazp/> */}
       {/* <Decomp/> */}
