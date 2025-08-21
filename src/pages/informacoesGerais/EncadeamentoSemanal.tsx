@@ -7,7 +7,7 @@ import {
     FileUpload,
     OptionButton,
     SelectOptions,
-    SwitchLabel
+    SwitchLabel,
 } from "@cepel/cepel-react-components";
 import { fakeSendFiles, formatarDDMMYYYY, months, revisoes, years } from "../../utils/utils";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -19,15 +19,16 @@ import {
     setMesFimSemanal,
     setRevisaoFim,
     setRodarDecompPartida,
-    setRodarGevazpPartida
+    setRodarGevazpPartida,
+    updatePrevsPartida,
+    updateRecuperacaoVolumes
 } from "./feature/informacoesGeraisSlice";
 
 const EncadeamentoSemanal = () => {
     const dispatch = useAppDispatch();
     const encadeamentoSemanal = useAppSelector(state => state.informacoesGerais.encadeamentoSemanal);
 
-    const [anchorElAlteraVolumeDecompPartida, setAnchorElAlteraVolumeDecompPartida] = useState<HTMLElement | null >(null);
-
+    const [anchorElAlteraVolumeDecompPartida, setAnchorElAlteraVolumeDecompPartida] = useState<HTMLElement | null>(null);
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -109,7 +110,7 @@ const EncadeamentoSemanal = () => {
                                         <OptionButton
                                             sx={{ marginTop: '7px' }}
                                             value={encadeamentoSemanal.alterarVolume}
-                                            onChange={e=>dispatch(setAlterarVolume(Number(e)))}
+                                            onChange={e => dispatch(setAlterarVolume(Number(e)))}
                                             label="Alterar volume"
                                             labelPosition="side"
                                             horizontal={true}
@@ -121,8 +122,8 @@ const EncadeamentoSemanal = () => {
                                             title='Data de referência'
                                             titlePosition="side"
                                             dateDefault={formatarDDMMYYYY(encadeamentoSemanal.dataReferencia)}
-                                            onDateChange={(e)=>{
-                                                if(e instanceof Date){
+                                            onDateChange={(e) => {
+                                                if (e instanceof Date) {
                                                     dispatch(setDataReferencia(e.toISOString()))
                                                 }
                                             }}
@@ -137,7 +138,9 @@ const EncadeamentoSemanal = () => {
                                         <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
                                             Arquivo de recuperação de volumes
                                         </Typography>
-                                        <FileUpload sendFiles={fakeSendFiles}/>
+                                        <FileUpload files={encadeamentoSemanal.recuperacaoVolumes}
+                                            onFilesChange={(files) => dispatch(updateRecuperacaoVolumes(files))}
+                                            sendFiles={fakeSendFiles} />
                                     </Box>
                                 </Stack>
                             </CustomBoxWithArrow>
@@ -150,7 +153,11 @@ const EncadeamentoSemanal = () => {
                     <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
                         Revisão dos PREVS de partida
                     </Typography>
-                    <FileUpload sendFiles={fakeSendFiles}/>
+                    <FileUpload
+                        files={encadeamentoSemanal.prevsPartida}
+                        onFilesChange={(files) => dispatch(updatePrevsPartida(files))}
+                        sendFiles={fakeSendFiles}
+                    />
                 </Box>
 
             </Stack >

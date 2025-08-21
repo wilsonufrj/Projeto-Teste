@@ -3,7 +3,7 @@ import type { EncadeamentoSemanalTypes } from "../types/EncadeamentoSemanalType"
 import type { LimitesPLDTypes } from "../types/LimitesPLDType";
 import type { AjusteArmazenamentoFinalType } from "../types/AjusteArmazenamentoFinalType";
 import type { EstudoRestartType, Reexecucao } from "../types/EstudoRestartType";
-
+import type {UploadFile} from "@cepel/cepel-react-components";
 interface InformacoesGeraisType {
     encadeamentoSemanal: EncadeamentoSemanalTypes,
     limitesPLD: Array<LimitesPLDTypes>,
@@ -18,9 +18,11 @@ const initialState: InformacoesGeraisType = {
         revisaoFim: '',
         rodarDecompPartida: false,
         alterarVolumeDecompPartida: false,
-        rodarGevazpPartida: false,
         alterarVolume: '',
-        dataReferencia: ''
+        dataReferencia: '',
+        prevsPartida: [],
+        rodarGevazpPartida: false,
+        recuperacaoVolumes: []
     } as EncadeamentoSemanalTypes,
     limitesPLD: [],
     ajusteArmazenamentoFinal: {
@@ -89,7 +91,6 @@ const informacoesGeraisSlice = createSlice({
         setReexecucaoNaoEncadeada: (state, action: PayloadAction<boolean>) => {
             state.estudoRestart.reexecucaoNaoEncadeada = action.payload;
         },
-
         addReexecucao: (state, action: PayloadAction<Array<Reexecucao>>) => {
             state.estudoRestart.reexecucoes = action.payload;
         },
@@ -98,6 +99,12 @@ const informacoesGeraisSlice = createSlice({
             if (idx >= 0 && idx < state.estudoRestart.reexecucoes.length) {
                 state.estudoRestart.reexecucoes.splice(idx, 1);
             }
+        },
+        updatePrevsPartida:(state,action:PayloadAction<Array<UploadFile>>) => {
+            state.encadeamentoSemanal.prevsPartida = action.payload;
+        },
+        updateRecuperacaoVolumes:(state,action:PayloadAction<Array<UploadFile>>) => {
+            state.encadeamentoSemanal.recuperacaoVolumes = action.payload;
         },
     }
 })
@@ -119,6 +126,8 @@ export const {
     setRevisaoPartidaQuente,
     setReexecucaoNaoEncadeada,
     addReexecucao,
-    removeReexecucaoByIndex
+    removeReexecucaoByIndex,
+    updateRecuperacaoVolumes,
+    updatePrevsPartida
 } = informacoesGeraisSlice.actions;
 export default informacoesGeraisSlice.reducer;
