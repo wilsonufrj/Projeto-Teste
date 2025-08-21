@@ -1,10 +1,13 @@
 import { FileUpload, OptionButton } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material"
-import { useState } from "react";
+import { fakeSendFiles } from "../../utils/utils";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setInformacoes } from "./feature/informacoesGeraisSlice";
 
 const AjusteArmazenamentoFinal = () => {
 
-    const [number, setNumber] = useState<number>(0);
+    const dispatch = useAppDispatch();
+    const ajusteArmazenamentoFinal = useAppSelector(state => state.informacoesGerais.ajusteArmazenamentoFinal);
 
 
     return (
@@ -17,21 +20,21 @@ const AjusteArmazenamentoFinal = () => {
                 </Box>
 
                 <OptionButton
-                    value={number}
-                    onChange={setNumber}
+                    value={ajusteArmazenamentoFinal.informacao}
+                    onChange={e=> dispatch(setInformacoes(String(e)))}
                     label="Informação"
                     labelPosition="side"
                     horizontal={true}
-                    lista={[{ id: 0, descricao: 'Usina Hidrelétrica' },
-                    { id: 1, descricao: 'REE' },
-                    { id: 2, descricao: 'Submercado' }]}
+                    lista={[{ id: 'usih', descricao: 'Usina Hidrelétrica' },
+                    { id: 'ree', descricao: 'REE' },
+                    { id: 'sub', descricao: 'Submercado' }]}
 
                 />
                 <Box sx={{ marginTop: '55px', width: '70%' }}>
                     <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
                         Arquivo de fatores
                     </Typography>
-                    <FileUpload />
+                    <FileUpload sendFiles={fakeSendFiles} />
                 </Box>
             </Stack>
         </Box>

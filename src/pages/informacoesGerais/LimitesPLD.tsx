@@ -1,22 +1,20 @@
 import { AddableRows, Datepicker, TextField } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material"
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import type { LimitesPLDTypes } from "./types/LimitesPLDType";
+import { formatarDDMMYYYY } from "../../utils/utils";
+import { addLimitesPLD, removeLimitePLDByIndex } from "./feature/informacoesGeraisSlice";
 
-type UserItem = { id: string; nome: string; email: string };
-
-const newItem = (): UserItem => ({
-    id: globalThis.crypto?.randomUUID?.() ?? String(Math.random()),
-    nome: '',
-    email: '',
-});
 
 const LimitesPLD = () => {
+    const dispatch = useAppDispatch();
+    const limitesPLD = useAppSelector(state => state.informacoesGerais.limitesPLD);
 
-    const [items, setItems] = useState<UserItem[]>([newItem()]);
-
-    const [date, setDate] = useState<Date>();
-    const [minimo, setMinimo] = useState<string>();
-    const [maximo, setMaximo] = useState<string>();
+    const newLimite = ():LimitesPLDTypes=>({
+        periodo:'',
+        maximo:'',
+        minimo:''
+    })
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -28,24 +26,27 @@ const LimitesPLD = () => {
                 </Box>
             </Stack>
 
-            <AddableRows<UserItem>
+            <AddableRows<LimitesPLDTypes>
                 addLabel="Adicionar Limites"
-                value={items}
-                onChange={setItems}
-                itemFactory={newItem}
-                getKey={(it) => it.id}
+                value={limitesPLD}
+                onChange={e=> dispatch(addLimitesPLD(e))}
+                itemFactory={newLimite}
                 addButtonProps={{ sx: { width: '302px' } }}
-                onDelete={(item, index) => {
-                    alert(`Usuário removido: ${item.nome || '(sem nome)'} — posição ${index + 1}`);
+                onDelete={(_, index) => {
+                    dispatch(removeLimitePLDByIndex(index))
                 }}
-                renderContent={({ item, index, update }) => ({
+                renderContent={({ item, index,update}) => ({
                     header: (
                         <Stack direction={'row'} gap={'34px'} sx={{ display: 'flex', alignContent: 'center' }}>
                             <Datepicker
                                 title='Período'
                                 titlePosition="side"
-                                dateDefault={"02/03/2025"}
-                                onDateChange={setDate}
+                                dateDefault={formatarDDMMYYYY(item.periodo)}
+                                onDateChange={e => {
+                                    if (e instanceof Date) {
+                                        update({periodo:e.toISOString()})
+                                    }
+                                }}
                                 minDate={new Date(2000, 0, 1)}
                                 maxDate={new Date(2025, 11, 31)}
                                 message="Selecione uma data válida dentro do período."
@@ -53,14 +54,14 @@ const LimitesPLD = () => {
                             />
                             <TextField
                                 label='Mínimo'
-                                value={minimo}
-                                onChange={setMinimo}
+                                value={item.minimo}
+                                onChange={e=> update({minimo:e})}
                                 inputProps={{ sx: { width: '160px' } }}
                             />
                             <TextField
                                 label='Máximo'
-                                value={maximo}
-                                onChange={setMaximo}
+                                value={item.maximo}
+                                onChange={e=> update({maximo:e})}
                                 inputProps={{ sx: { width: '160px' } }}
                             />
                         </Stack>

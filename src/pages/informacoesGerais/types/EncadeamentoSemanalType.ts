@@ -1,10 +1,10 @@
 export interface EncadeamentoSemanalTypes{
-    dataFimSemanal: string,
+    mesFimSemanal:string,
+    anoFimSemanal:string,
     revisaoFim:string,
     rodarDecompPartida:boolean,
-    alterarVolumePartida:boolean,
+    alterarVolumeDecompPartida:boolean,
     rodarGevazpPartida:boolean,
-    alterarVolume:boolean
-    dataReferencia:boolean,
-    
+    alterarVolume:number | string,
+    dataReferencia:string,
 }

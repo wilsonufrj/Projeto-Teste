@@ -1,34 +1,34 @@
-import { CustomBoxWithArrow, Datepicker, FileUpload, OptionButton, SelectOptions, SwitchCard, SwitchLabel } from "@cepel/cepel-react-components";
 import { Grid2 } from "@mui/material";
 import { Box, Stack, Typography } from "@mui/material"
-import { alignProperty } from "@mui/material/styles/cssUtils";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import {
+    CustomBoxWithArrow,
+    Datepicker,
+    FileUpload,
+    OptionButton,
+    SelectOptions,
+    SwitchLabel
+} from "@cepel/cepel-react-components";
+import { fakeSendFiles, formatarDDMMYYYY, months, revisoes, years } from "../../utils/utils";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import {
+    setAlterarVolume,
+    setAlterarVolumeDecompPartida,
+    setAnoFimSemanal,
+    setDataReferencia,
+    setMesFimSemanal,
+    setRevisaoFim,
+    setRodarDecompPartida,
+    setRodarGevazpPartida
+} from "./feature/informacoesGeraisSlice";
 
 const EncadeamentoSemanal = () => {
+    const dispatch = useAppDispatch();
+    const encadeamentoSemanal = useAppSelector(state => state.informacoesGerais.encadeamentoSemanal);
 
-    const [mes, setMes] = useState<string>('');
-    const [ano, setAno] = useState<string>('');
+    const [anchorElAlteraVolumeDecompPartida, setAnchorElAlteraVolumeDecompPartida] = useState<HTMLElement | null >(null);
 
-    const months = Array.from({ length: 4 }, (_, i) => (i + 1).toString());
-    const years = Array.from({ length: 4 }, (_, i) => (i + 2020).toString());
 
-    const [alterarVolumeDecompPartida, setAlterarVolumeDecompPartida] = useState<boolean>(true);
-    const [rodarDecompPartida, setRodarDecompPartida] = useState<boolean>(true);
-    const [rodarGevazpPartida, setRodarGevazpPartida] = useState<boolean>(true);
-
-    const [number, setNumber] = useState<number>(0);
-    const [date, setDate] = useState<string>();
-
-    const [anchorElAlteraVolumeDecompPartida, setAnchorElAlteraVolumeDecompPartida] = useState<HTMLButtonElement>();
-    const [enabledAlteraVolumeDecompPartida, setEnablebAlteraVolumeDecompPartida] = useState<boolean>(true);
-
-    const [anchorElRodaDecomPartida, setAnchorElRodaDecompPartida] = useState<HTMLButtonElement>();
-    const [enabledRodaDecompPartida, setEnablebRodaDecompPartida] = useState<boolean>(true);
-
-    const [anchorElRodaGevazpPartida, setAnchorElRodaGevazpPartida] = useState<HTMLButtonElement>();
-    const [enabledRodaGevazpPartida, setEnablebRodaGevazpPartida] = useState<boolean>(false);
-
-    
     return (
         <Box sx={{ width: '100%' }}>
             <Stack spacing={"30px"}>
@@ -41,39 +41,39 @@ const EncadeamentoSemanal = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignContent: 'center' }}>
                     <Box >
                         <SelectOptions
-                            value={mes}
+                            value={encadeamentoSemanal.mesFimSemanal}
                             label={"Data fim semanal"}
                             options={months}
                             placeholder="Mês"
-                            onChange={setMes}
+                            onChange={(e) => dispatch(setMesFimSemanal(e))}
                             boxOptionSx={{ width: '158px' }}
                         />
                         <SelectOptions
-                            value={ano}
+                            value={encadeamentoSemanal.anoFimSemanal}
                             label={""}
                             options={years}
                             placeholder="Ano"
-                            onChange={setAno}
+                            onChange={(e) => dispatch(setAnoFimSemanal(e))}
                             boxOptionSx={{ width: '158px' }}
                         />
                     </Box>
                     <SelectOptions
                         sx={{ marginLeft: '100px' }}
-                        value={mes}
+                        value={encadeamentoSemanal.revisaoFim}
                         label={"Revisão de fim"}
-                        options={months}
+                        options={revisoes}
                         placeholder="RV 0"
-                        onChange={setMes}
+                        onChange={(e) => dispatch(setRevisaoFim(e))}
                         boxOptionSx={{ width: '119px' }}
                     />
                 </Box>
 
-                <Grid2 container spacing={2} alignItems="center" sx={{ mt: 2,width:'100%' }}>
+                <Grid2 container spacing={2} alignItems="center" sx={{ mt: 2, width: '100%' }}>
                     <Grid2 sx={{ gridColumn: { xs: "span 12", md: "span 3" } }}>
                         <SwitchLabel
                             label={"Rodar DECOMP  de partida"}
-                            checked={enabledRodaDecompPartida}
-                            onChange={(_, checked) => setEnablebRodaDecompPartida(checked)}
+                            checked={encadeamentoSemanal.rodarDecompPartida}
+                            onChange={(_, checked) => dispatch(setRodarDecompPartida(checked))}
                             message="Receba alertas importantes."
                         />
                     </Grid2>
@@ -81,8 +81,8 @@ const EncadeamentoSemanal = () => {
                     <Grid2 sx={{ gridColumn: { xs: "span 12", md: "span 3" } }}>
                         <SwitchLabel
                             label={"Altera volume DECOMP de partida"}
-                            checked={enabledAlteraVolumeDecompPartida}
-                            onChange={(_, checked) => setEnablebAlteraVolumeDecompPartida(checked)}
+                            checked={encadeamentoSemanal.alterarVolumeDecompPartida}
+                            onChange={(_, checked) => dispatch(setAlterarVolumeDecompPartida(checked))}
                             message="Receba alertas importantes."
                             getSwitchRef={(el) => setAnchorElAlteraVolumeDecompPartida(el)}
                         />
@@ -91,17 +91,16 @@ const EncadeamentoSemanal = () => {
                     <Grid2 sx={{ gridColumn: { xs: "span 12", md: "span 3" } }}>
                         <SwitchLabel
                             label={"Rodar GEVAZP de partida"}
-                            checked={enabledRodaGevazpPartida}
-                            onChange={(_, checked) => setEnablebRodaGevazpPartida(checked)}
+                            checked={encadeamentoSemanal.rodarGevazpPartida}
+                            onChange={(_, checked) => dispatch(setRodarGevazpPartida(checked))}
                             message="Receba alertas importantes."
-                            getSwitchRef={(el) => setAnchorElRodaGevazpPartida(el)}
                         />
                     </Grid2>
 
-                    {enabledAlteraVolumeDecompPartida && (
+                    {encadeamentoSemanal.alterarVolumeDecompPartida && (
                         <Grid2 sx={{ gridColumn: { xs: "span 12", md: "span 12" }, width: "100%" }}>
                             <CustomBoxWithArrow
-                                anchorRef={{ current: anchorElRodaDecomPartida }}
+                                anchorRef={{ current: anchorElAlteraVolumeDecompPartida }}
                                 style={{ minWidth: 280, width: "100%" }}
                                 contentAlignment='start'
                             >
@@ -109,8 +108,8 @@ const EncadeamentoSemanal = () => {
                                     <Box sx={{ display: 'flex', alignContent: 'center' }}>
                                         <OptionButton
                                             sx={{ marginTop: '7px' }}
-                                            value={number}
-                                            onChange={setNumber}
+                                            value={encadeamentoSemanal.alterarVolume}
+                                            onChange={e=>dispatch(setAlterarVolume(Number(e)))}
                                             label="Alterar volume"
                                             labelPosition="side"
                                             horizontal={true}
@@ -121,8 +120,12 @@ const EncadeamentoSemanal = () => {
                                         <Datepicker
                                             title='Data de referência'
                                             titlePosition="side"
-                                            dateDefault={"02/03/2025"}
-                                            onDateChange={setDate}
+                                            dateDefault={formatarDDMMYYYY(encadeamentoSemanal.dataReferencia)}
+                                            onDateChange={(e)=>{
+                                                if(e instanceof Date){
+                                                    dispatch(setDataReferencia(e.toISOString()))
+                                                }
+                                            }}
                                             minDate={new Date(2000, 0, 1)}
                                             maxDate={new Date(2025, 11, 31)}
                                             message="Selecione uma data válida dentro do período."
@@ -134,7 +137,7 @@ const EncadeamentoSemanal = () => {
                                         <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
                                             Arquivo de recuperação de volumes
                                         </Typography>
-                                        <FileUpload />
+                                        <FileUpload sendFiles={fakeSendFiles}/>
                                     </Box>
                                 </Stack>
                             </CustomBoxWithArrow>
@@ -147,7 +150,7 @@ const EncadeamentoSemanal = () => {
                     <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
                         Revisão dos PREVS de partida
                     </Typography>
-                    <FileUpload />
+                    <FileUpload sendFiles={fakeSendFiles}/>
                 </Box>
 
             </Stack >

@@ -1,27 +1,25 @@
-import { AddableRows, CustomBoxWithArrow, Datepicker, OptionButton, SelectOptions, SwitchLabel, Tab } from "@cepel/cepel-react-components";
+import { AddableRows, CustomBoxWithArrow, Datepicker, SelectOptions, SwitchLabel } from "@cepel/cepel-react-components";
 import { Box, Grid2, Stack, Typography } from "@mui/material"
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import {
+    addReexecucao,
+    removeReexecucaoByIndex,
+    setDataReferenciaRestart,
+    setPartidaQuente,
+    setReexecucaoNaoEncadeada,
+    setRevisaoPartidaQuente
+} from "./feature/informacoesGeraisSlice";
 import { useState } from "react";
+import { formatarDDMMYYYY, revisoes } from "../../utils/utils";
+import type { Reexecucao } from "./types/EstudoRestartType";
 
-type UserItem = { id: string; nome: string; email: string };
-
-const newItem = (): UserItem => ({
-    id: globalThis.crypto?.randomUUID?.() ?? String(Math.random()),
-    nome: '',
-    email: '',
-});
 
 const EstudoRestart = () => {
-    const [items, setItems] = useState<UserItem[]>([newItem()]);
-    const [mes, setMes] = useState<string>('');
+    const dispatch = useAppDispatch();
+    const estudoRestart = useAppSelector(state => state.informacoesGerais.estudoRestart);
 
-    const [anchorElReexecucaoNaoEncadeada, setAnchorElReexecucaoNaoEncadeada] = useState<HTMLButtonElement>();
-    const [enabledReexecucaoNaoEncadeada, setEnablebReexecucaoNaoEncadeada] = useState<boolean>(false);
-
-    const [anchorElPartidaQuente, setAnchorElPartidaQuente] = useState<HTMLButtonElement>();
-    const [enabledPartidaQuente, setEnablebPartidaQuente] = useState<boolean>(false);
-
-    const months = Array.from({ length: 4 }, (_, i) => (i + 1).toString());
-    const [date, setDate] = useState<string>();
+    const [anchorElPartidaQuente, setAnchorElPartidaQuente] = useState<HTMLElement | null>(null);
+    const [anchorElReexecucaoNaoEncadeada, setAnchorElReexecucaoNaoEncadeada] = useState<HTMLElement | null>(null);
 
 
     return (
@@ -37,26 +35,26 @@ const EstudoRestart = () => {
                     <Grid2 sx={{ gridColumn: { xs: "span 12", md: "span 3" } }}>
                         <SwitchLabel
                             label={"Partida quente"}
-                            checked={enabledPartidaQuente}
-                            onChange={(_, checked) => setEnablebPartidaQuente(checked)}
+                            checked={estudoRestart.partidaQuente}
+                            onChange={(_, checked) => dispatch(setPartidaQuente(checked))}
                             message="Receba alertas importantes."
                             getSwitchRef={(el) => setAnchorElPartidaQuente(el)}
-                            disabled={enabledReexecucaoNaoEncadeada}
+                            disabled={estudoRestart.reexecucaoNaoEncadeada}
                         />
                     </Grid2>
 
                     <Grid2 sx={{ gridColumn: { xs: "span 12", md: "span 3" } }}>
                         <SwitchLabel
                             label={"Reexecução não encadeada"}
-                            checked={enabledReexecucaoNaoEncadeada}
-                            onChange={(_, checked) => setEnablebReexecucaoNaoEncadeada(checked)}
+                            checked={estudoRestart.reexecucaoNaoEncadeada}
+                            onChange={(_, checked) => dispatch(setReexecucaoNaoEncadeada(checked))}
                             message="Receba alertas importantes."
                             getSwitchRef={(el) => setAnchorElReexecucaoNaoEncadeada(el)}
-                            disabled={enabledPartidaQuente}
+                            disabled={estudoRestart.partidaQuente}
                         />
                     </Grid2>
 
-                    {enabledPartidaQuente && (
+                    {estudoRestart.partidaQuente && (
                         <Grid2 sx={{ gridColumn: { xs: "span 12", md: "span 2" } }}>
                             <CustomBoxWithArrow
                                 anchorRef={{ current: anchorElPartidaQuente }}
@@ -69,8 +67,12 @@ const EstudoRestart = () => {
                                         <Datepicker
                                             title='Data de referência'
                                             titlePosition="side"
-                                            dateDefault={"02/03/2025"}
-                                            onDateChange={setDate}
+                                            dateDefault={formatarDDMMYYYY(estudoRestart.dataReferencia)}
+                                            onDateChange={(e) => {
+                                                if (e instanceof Date) {
+                                                    dispatch(setDataReferenciaRestart(e.toISOString()))
+                                                }
+                                            }}
                                             minDate={new Date(2000, 0, 1)}
                                             maxDate={new Date(2025, 11, 31)}
                                             message="Selecione uma data válida dentro do período."
@@ -78,11 +80,11 @@ const EstudoRestart = () => {
                                         />
 
                                         <SelectOptions
-                                            value={mes}
+                                            value={estudoRestart.revisaoPartidaQuente}
                                             label={"Revisão partida quente"}
-                                            options={months}
+                                            options={revisoes}
                                             placeholder="RV 0"
-                                            onChange={setMes}
+                                            onChange={e => dispatch(setRevisaoPartidaQuente(e))}
                                             boxOptionSx={{ width: '158px' }}
                                         />
                                     </Box>
@@ -91,8 +93,8 @@ const EstudoRestart = () => {
                         </Grid2>
                     )}
 
-                    {enabledReexecucaoNaoEncadeada && (
-                        <Grid2 sx={{ gridColumn: { xs: "span 12", md: "span 2",width: '100%' } }}>
+                    {estudoRestart.reexecucaoNaoEncadeada && (
+                        <Grid2 sx={{ gridColumn: { xs: "span 12", md: "span 2", width: '100%' } }}>
                             <CustomBoxWithArrow
                                 anchorRef={{ current: anchorElReexecucaoNaoEncadeada }}
                                 style={{ minWidth: 280, width: '1147px' }}
@@ -100,15 +102,14 @@ const EstudoRestart = () => {
                             >
                                 <Box sx={{ width: '100%' }}>
 
-                                    <AddableRows<UserItem>
+                                    <AddableRows<Reexecucao>
                                         addLabel="Adicionar Reexecução"
-                                        value={items}
-                                        onChange={setItems}
-                                        itemFactory={newItem}
-                                        getKey={(it) => it.id}
+                                        value={estudoRestart.reexecucoes}
+                                        onChange={e => dispatch(addReexecucao(e))}
+                                        itemFactory={() => ({ dataInicio: '', dataFim: '' } as Reexecucao)}
                                         addButtonProps={{ sx: { width: '226px' } }}
-                                        onDelete={(item, index) => {
-                                            alert(`Usuário removido: ${item.nome || '(sem nome)'} — posição ${index + 1}`);
+                                        onDelete={(_, index) => {
+                                            dispatch(removeReexecucaoByIndex(index))
                                         }}
                                         renderContent={({ item, index, update }) => ({
                                             header: (
@@ -116,8 +117,8 @@ const EstudoRestart = () => {
                                                     <Datepicker
                                                         title='Date início'
                                                         titlePosition="side"
-                                                        dateDefault={"02/03/2025"}
-                                                        onDateChange={setDate}
+                                                        dateDefault={formatarDDMMYYYY(item.dataInicio)}
+                                                        onDateChange={e => update({ dataInicio: e?.toISOString() })}
                                                         minDate={new Date(2000, 0, 1)}
                                                         maxDate={new Date(2025, 11, 31)}
                                                         message="Selecione uma data válida dentro do período."
@@ -126,8 +127,8 @@ const EstudoRestart = () => {
                                                     <Datepicker
                                                         title='Data fim'
                                                         titlePosition="side"
-                                                        dateDefault={"02/03/2025"}
-                                                        onDateChange={setDate}
+                                                        dateDefault={formatarDDMMYYYY(item.dataFim)}
+                                                        onDateChange={e => update({ dataFim: e?.toISOString() })}
                                                         minDate={new Date(2000, 0, 1)}
                                                         maxDate={new Date(2025, 11, 31)}
                                                         message="Selecione uma data válida dentro do período."
@@ -136,7 +137,6 @@ const EstudoRestart = () => {
                                                 </Stack>
                                             )
                                         })}
-
                                     />
                                 </Box>
                             </CustomBoxWithArrow>
