@@ -148,7 +148,7 @@ const EncadeamentoSemanal = () => {
                     )}
 
                 </Grid2>
-
+2
                 <Box sx={{ marginTop: '37px', width: '70%' }}>
                     <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
                         Revisão dos PREVS de partida
