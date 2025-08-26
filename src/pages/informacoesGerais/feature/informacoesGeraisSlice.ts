@@ -3,7 +3,7 @@ import type { EncadeamentoSemanalTypes } from "../types/EncadeamentoSemanalType"
 import type { LimitesPLDTypes } from "../types/LimitesPLDType";
 import type { AjusteArmazenamentoFinalType } from "../types/AjusteArmazenamentoFinalType";
 import type { EstudoRestartType, Reexecucao } from "../types/EstudoRestartType";
-import type {UploadFile} from "@cepel/cepel-react-components";
+import type { UploadFile } from "@cepel/cepel-react-components";
 interface InformacoesGeraisType {
     encadeamentoSemanal: EncadeamentoSemanalTypes,
     limitesPLD: Array<LimitesPLDTypes>,
@@ -100,12 +100,15 @@ const informacoesGeraisSlice = createSlice({
                 state.estudoRestart.reexecucoes.splice(idx, 1);
             }
         },
-        updatePrevsPartida:(state,action:PayloadAction<Array<UploadFile>>) => {
+        updatePrevsPartida: (state, action: PayloadAction<Array<UploadFile>>) => {
             state.encadeamentoSemanal.prevsPartida = action.payload;
         },
-        updateRecuperacaoVolumes:(state,action:PayloadAction<Array<UploadFile>>) => {
+        updateRecuperacaoVolumes: (state, action: PayloadAction<Array<UploadFile>>) => {
             state.encadeamentoSemanal.recuperacaoVolumes = action.payload;
         },
+        updateArquivoFatores: (state, action: PayloadAction<Array<UploadFile>>) => {
+            state.ajusteArmazenamentoFinal.arquivoFatores = action.payload;
+        }
     }
 })
 
@@ -128,6 +131,7 @@ export const {
     addReexecucao,
     removeReexecucaoByIndex,
     updateRecuperacaoVolumes,
-    updatePrevsPartida
+    updatePrevsPartida,
+    updateArquivoFatores
 } = informacoesGeraisSlice.actions;
 export default informacoesGeraisSlice.reducer;
