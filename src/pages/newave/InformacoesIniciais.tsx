@@ -1,19 +1,14 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { SelectOptions, SwitchLabel, TextField } from "@cepel/cepel-react-components";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { versions } from "../../utils/utils";
+import { setConfiguracaoNos, setDiminuicaoAutomaticaHorizonte, setNumeroProcessadores, setPrimeiraSimulacao, setSegundaSimulacao, setVersao } from "./feature/newaveSlice";
 
 const InformacoesIniciais = () => {
 
-    const [versao, setVersao] = useState<string>("");
-    const [numeroProcessadores, setNumeroProcessadores] = useState<string>("");
-    const [configuracaoNos, setConfiguracaoNos] = useState<string>("");
-
-    const [primeiraSimulacao, setPrimeiraSimulacao] = useState("");
-    const [segundaSimulacao, setSegundaSimulacao] = useState("");
-
-    const [diminuicaoAutomaticaHorizonte, setDiminuicaoAutomaticaHorizonte] = useState<boolean>(false);
-
-    const options = ['1.0.0', '1.1.0', '1.2.0', '1.3.0']
+    const dispatch = useAppDispatch();
+    const informacoesIniciais = useAppSelector(state => state.newave.informacoesIniciais);
 
     return (
         <Box sx={{ width: '75%' }}>
@@ -23,29 +18,39 @@ const InformacoesIniciais = () => {
                 </Box>
                 <Box sx={{ display: "flex", justifySelf: 'start' }}>
                     <SelectOptions
-                        value={versao}
+                        value={informacoesIniciais.versao}
                         label={"Versão do NEWAVE"}
-                        options={options}
+                        options={versions}
                         placeholder="Selecione a versão"
-                        onChange={setVersao}
+                        onChange={(e) => dispatch(setVersao(e))}
                         boxOptionSx={{ width: '294px' }}
                     />
                 </Box>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <TextField label="Número de processadores" value={numeroProcessadores} onChange={setNumeroProcessadores} ></TextField>
-                    <TextField label="Configuração dos nós" value={configuracaoNos} onChange={setConfiguracaoNos} ></TextField>
+                    <TextField label="Número de processadores"
+                        value={informacoesIniciais.numeroProcessadores}
+                        onChange={(e) => dispatch(setNumeroProcessadores(e))} />
+
+                    <TextField label="Configuração dos nós"
+                        value={informacoesIniciais.configuracaoNos}
+                        onChange={e => dispatch(setConfiguracaoNos(e))} />
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <TextField label="1a simulacao da S. Sint" value={primeiraSimulacao} onChange={setPrimeiraSimulacao} ></TextField>
-                    <TextField label="2a simulacao da S. Sint" value={segundaSimulacao} onChange={setSegundaSimulacao} ></TextField>
+                    <TextField label="1a simulacao da S. Sint"
+                        value={informacoesIniciais.primeiraSimulacao}
+                        onChange={e => dispatch(setPrimeiraSimulacao(e))} />
+
+                    <TextField label="2a simulacao da S. Sint"
+                        value={informacoesIniciais.segundaSimulacao}
+                        onChange={e => dispatch(setSegundaSimulacao(e))} />
                 </Box>
                 <SwitchLabel
                     label="Diminuição automática do horizonte"
-                    checked={diminuicaoAutomaticaHorizonte}
+                    checked={informacoesIniciais.diminuicaoAutomaticaHorizonte}
                     labelPlacement="start"
                     message="Switch para diminuir automaticamente o horizonte de estudo"
-                    onChange={(_event, checked) => setDiminuicaoAutomaticaHorizonte(checked)} />
+                    onChange={(_event, checked) => dispatch(setDiminuicaoAutomaticaHorizonte(checked))} />
             </Stack>
         </Box>
     );

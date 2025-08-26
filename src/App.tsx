@@ -12,17 +12,17 @@ function App() {
     { label: "Test1", component: <h1>Teste 1</h1> },
     { label: "Test2", component: <h1>Teste 2</h1> }
   ];
- const handleDateChange = (start: Date | null, end: Date | null) => {
-        console.log("Data inicial:", start);
-        console.log("Data final:", end);
-    };
+  const handleDateChange = (start: Date | null, end: Date | null) => {
+    console.log("Data inicial:", start);
+    console.log("Data final:", end);
+  };
   return (
-    <Box sx={{margin:'5px'}}>
-      <InformacoesGerais />
-      {/* <Newave/> */}
+    <Box sx={{ margin: '5px' }}>
+      {/* <InformacoesGerais /> */}
+      <Newave />
       {/* <Gevazp/> */}
-      {/* <Decomp/> */}
-      <Dessem/>
+      {/* <Decomp /> */}
+      {/* <Dessem /> */}
       {/* <DateRange
             title="Selecione o Horizonte"
             defaultValues={{ startDate: null, endDate: null }}
