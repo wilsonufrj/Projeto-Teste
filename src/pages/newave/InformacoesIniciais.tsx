@@ -1,9 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { useState } from "react";
-import { SelectOptions, SwitchLabel, TextField } from "@cepel/cepel-react-components";
+import { SwitchLabel, TextField } from "@cepel/cepel-react-components";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { versions } from "../../utils/utils";
-import { setConfiguracaoNos, setDiminuicaoAutomaticaHorizonte, setNumeroProcessadores, setPrimeiraSimulacao, setSegundaSimulacao, setVersao } from "./feature/newaveSlice";
+import { setDiminuicaoAutomaticaHorizonte, setNumeroProcessadores, setPrimeiraSimulacao, setSegundaSimulacao, setVersao } from "./feature/newaveSlice";
 
 const InformacoesIniciais = () => {
 
@@ -16,25 +14,10 @@ const InformacoesIniciais = () => {
                 <Box sx={{ display: "flex", justifySelf: 'start' }}>
                     <Typography sx={{ fontSize: '24px', fontWeight: 700, lineHeight: "120%", marginBottom: '30px' }}>Informações iniciais</Typography>
                 </Box>
-                <Box sx={{ display: "flex", justifySelf: 'start' }}>
-                    <SelectOptions
-                        value={informacoesIniciais.versao}
-                        label={"Versão do NEWAVE"}
-                        options={versions}
-                        placeholder="Selecione a versão"
-                        onChange={(e) => dispatch(setVersao(e))}
-                        boxOptionSx={{ width: '294px' }}
-                    />
-                </Box>
-
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <TextField label="Número de processadores"
                         value={informacoesIniciais.numeroProcessadores}
                         onChange={(e) => dispatch(setNumeroProcessadores(e))} />
-
-                    <TextField label="Configuração dos nós"
-                        value={informacoesIniciais.configuracaoNos}
-                        onChange={e => dispatch(setConfiguracaoNos(e))} />
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <TextField label="1a simulacao da S. Sint"

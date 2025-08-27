@@ -1,5 +1,5 @@
-export interface LimitesPLDTypes{
-    periodo:string,
-    minimo:string,
-    maximo:string
+export interface LimitesPLDTypes {
+    periodo: string;
+    minimo: string;
+    maximo: string;
 }

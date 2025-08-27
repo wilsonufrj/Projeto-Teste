@@ -1,79 +1,23 @@
 import { SwitchCard, SwitchLabel, type SwitchItem } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material";
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setAllCheckedTrue, setSelecionarPlanilhas } from "./feature/newaveSlice";
+import type { PlanilhaResultadosTypes } from "./types/PlanilhaResultadoTypes";
 
 const PlanilhaResultado = () => {
-    const [selecionarTodas, setSelecionarTodas] = useState<boolean>(false);
-    const [despachoUsinasGNL, setDespachoUsinaGNL] = useState<SwitchItem[]>([
-        { id: '1', label: 'BGNL001', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'BGNL002', checked: true, message: 'Informações planilha 2' }
-    ]);
+    const dispatch = useAppDispatch()
+    const planilhaResultados = useAppSelector((state) => state.newave.planilhasResultados);
 
-    const [custoMarginalOperacao, setCustoMarginalOperacao] = useState<SwitchItem[]>([
-        { id: '1', label: 'CMARG', checked: true, message: 'Informações planilha 1' },
-    ]);
-
-    const [defictEnergia, setDefictEnergia] = useState<SwitchItem[]>([
-        { id: '1', label: 'DEFP001', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'DEFP001', checked: true, message: 'Informações planilha 2' }
-    ]);
-
-    const [parcelaControlavelENA, setParcelaControlavelENA] = useState<SwitchItem[]>([
-        { id: '1', label: 'EAF', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'EAFB', checked: true, message: 'Informações planilha 2' },
-        { id: '3', label: 'EAFBSIN', checked: true, message: 'Informações planilha 2' },
-        { id: '4', label: 'EAFM', checked: true, message: 'Informações planilha 2' },
-        { id: '5', label: 'EAFMSIN', checked: true, message: 'Informações planilha 2' },
-
-    ]);
-
-    const [vertimentoControlavel, setVertimentoControlavel] = useState<SwitchItem[]>([
-        { id: '1', label: 'EVERT', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'EVERTM', checked: true, message: 'Informações planilha 2' },
-        { id: '3', label: 'EVERTSIN', checked: true, message: 'Informações planilha 2' },
-    ]);
-
-    const [geraçãoHidraulica, setGeracaoHidraulica] = useState<SwitchItem[]>([
-        { id: '1', label: 'GHIDR', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'GHIDRM', checked: true, message: 'Informações planilha 2' },
-        { id: '3', label: 'GHIDRSIN', checked: true, message: 'Informações planilha 2' },
-        { id: '4', label: 'GHTOT', checked: true, message: 'Informações planilha 2' },
-        { id: '5', label: 'GHTOTM', checked: true, message: 'Informações planilha 2' },
-        { id: '6', label: 'GHTOTSIN', checked: true, message: 'Informações planilha 2' },
-
-    ]);
-
-    const [geracaoTerminca, setGeracaoTermica] = useState<SwitchItem[]>([
-        { id: '1', label: 'GTTOT', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'GTTOTSIN', checked: true, message: 'Informações planilha 2' },
-    ]);
-
-    const [intercambioSustistemas, setIntercambioSubsistemas] = useState<SwitchItem[]>([
-        { id: '1', label: 'INT', checked: true, message: 'Informações planilha 1' }
-
-    ]);
-
-    const [mercadoLiquido, setMercadoLiquido] = useState<SwitchItem[]>([
-        { id: '1', label: 'MERCL', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'CMERCLSIN', checked: true, message: 'Informações planilha 2' }
-    ]);
-
-    const [vertimentoTurbinavel, setVertimentoTurbinavel] = useState<SwitchItem[]>([
-        { id: '1', label: 'VERTURBM', checked: true, message: 'Informações planilha 1' },
-        { id: '2', label: 'VERTURBNW', checked: true, message: 'Informações planilha 2' },
-        { id: '2', label: 'VERTURBSIN', checked: true, message: 'Informações planilha 2' }
-    ]);
 
     const handleToggle = (
-        id: string,
-        setState: React.Dispatch<React.SetStateAction<SwitchItem[]>>
+        atributo:keyof PlanilhaResultadosTypes ,
+        index: string,
     ) => {
-        setState((prev) =>
-            prev.map((item) =>
-                item.id === id ? { ...item, checked: !item.checked } : item
-            )
-        );
+        dispatch(setSelecionarPlanilhas({atributo, index}))
     };
+
+    const verificaChecked: boolean = Object.keys(planilhaResultados).every((atributo) => planilhaResultados[atributo as keyof PlanilhaResultadosTypes].some(item => item.checked));
 
     return (
         <Box sx={{ width: '100' }}>
@@ -85,75 +29,75 @@ const PlanilhaResultado = () => {
             <Box>
                 <SwitchLabel
                     label="Selecionar todas"
-                    checked={selecionarTodas}
+                    checked={verificaChecked}
                     labelPlacement="start"
                     message="Switch para diminuir automaticamente o horizonte de estudo"
-                    onChange={(_event, checked) => setSelecionarTodas(checked)} />
+                    onChange={(_event, checked) => dispatch(setAllCheckedTrue(checked))} />
 
                 <Stack spacing={3}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <SwitchCard
                             title="Despacho de Usina GNL"
-                            switches={despachoUsinasGNL}
-                            onToggle={(id) => handleToggle(id, setDespachoUsinaGNL)}
+                            switches={planilhaResultados.despachoUsinasGNL}
+                            onToggle={(id) => handleToggle("despachoUsinasGNL", id)}
                         />
 
                         <SwitchCard
                             title="Custo Marginal de Operacao"
-                            switches={custoMarginalOperacao}
-                            onToggle={(id) => handleToggle(id, setCustoMarginalOperacao)}
+                            switches={planilhaResultados.custoMarginalOperacao}
+                            onToggle={(id) => handleToggle("custoMarginalOperacao",id)}
                         //contentSx={{ justifyContent: 'flex-start', alignContent: 'flex-start' }}
                         />
 
                         <SwitchCard
                             title="Défict de Energia"
-                            switches={defictEnergia}
-                            onToggle={(id) => handleToggle(id, setDefictEnergia)}
+                            switches={planilhaResultados.defictEnergia}
+                            onToggle={(id) => handleToggle("defictEnergia", id)}
                         />
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'stretch' }}>
                         <SwitchCard
                             title="Parcela Controlável da ENA"
-                            switches={parcelaControlavelENA}
-                            onToggle={(id) => handleToggle(id, setParcelaControlavelENA)}
+                            switches={planilhaResultados.parcelaControlavelENA}
+                            onToggle={(id) => handleToggle("parcelaControlavelENA",id)}
                         />
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'stretch' }}>
                         <SwitchCard
                             title="Vertimento Controlável"
-                            switches={vertimentoControlavel}
-                            onToggle={(id) => handleToggle(id, setVertimentoControlavel)}
+                            switches={planilhaResultados.vertimentoControlavel}
+                            onToggle={(id) => handleToggle("vertimentoControlavel", id)}
                         />
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'stretch' }}>
                         <SwitchCard
                             title="Geração Hidráulica"
-                            switches={geraçãoHidraulica}
-                            onToggle={(id) => handleToggle(id, setGeracaoHidraulica)}
+                            switches={planilhaResultados.geracaoHidraulica}
+                            onToggle={(id) => handleToggle("geracaoHidraulica", id)}
                         />
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <SwitchCard
                             title="Geração Térmica"
-                            switches={geracaoTerminca}
-                            onToggle={(id) => handleToggle(id, setGeracaoTermica)}
+                            switches={planilhaResultados.geracaoTermica}
+                            onToggle={(id) => handleToggle("geracaoTermica", id)}
                         />
                         <SwitchCard
                             title="Intercâmbio entre Subsistemas"
-                            switches={intercambioSustistemas}
-                            onToggle={(id) => handleToggle(id, setIntercambioSubsistemas)}
+                            switches={planilhaResultados.intercambioSubsistema}
+                            onToggle={(id) => handleToggle("intercambioSubsistema", id)}
                         />
                         <SwitchCard
                             title="Mercado Líquido"
-                            switches={mercadoLiquido}
-                            onToggle={(id) => handleToggle(id, setMercadoLiquido)}
+                            switches={planilhaResultados.mercadoLiquido}
+                            onToggle={(id) => handleToggle("mercadoLiquido", id)}
                         />
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'stretch' }}>
                         <SwitchCard
                             title="Vertimento Turbinavel"
-                            switches={vertimentoTurbinavel}
-                            onToggle={(id) => handleToggle(id, setVertimentoTurbinavel)}
+                            switches={planilhaResultados.vertimentoTurbinavel}
+                            onToggle={(id) => handleToggle("vertimentoTurbinavel", id)}
                         />
                     </Box>
                 </Stack>

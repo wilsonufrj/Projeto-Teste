@@ -1,21 +1,27 @@
-import { AddableRows, Datepicker, FileUpload, TextField } from "@cepel/cepel-react-components";
+import { AddableRows, Datepicker, FileUpload, SelectOptions } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import type { TrocaArquivoTypes } from "./types/TrocaArquivoTypes";
+import { addTrocaArquivos, removeTrocaArquivoByIndex } from "./feature/newaveSlice";
+import { fakeSendFiles, formatarDDMMYYYY } from "../../utils/utils";
 
-type UserItem = { id: string; nome: string; email: string };
-
-const newItem = (): UserItem => ({
-    id: globalThis.crypto?.randomUUID?.() ?? String(Math.random()),
-    nome: '',
-    email: '',
-});
 
 const TrocaArquivos = () => {
 
-    const [items, setItems] = useState<UserItem[]>([newItem()]);
-    const [date, setDate] = useState<Date>();
+    const dispatch = useAppDispatch()
+    const trocaArquivos = useAppSelector((state) => state.newave.trocaArquivos);
 
-    const [nomesArquivos, setNomesArquivos] = useState<string>("");
+    const newItem = (): TrocaArquivoTypes => ({
+        arquivos: [],
+        nomeArquivo: '',
+        periodo: ''
+    })
+
+    const arquivos = [
+        'teste1.txt',
+        'teste2.txt',
+        'teste3.txt'
+    ]
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -26,15 +32,14 @@ const TrocaArquivos = () => {
                     </Typography>
                 </Box>
 
-                <AddableRows<UserItem>
+                <AddableRows<TrocaArquivoTypes>
                     addLabel="Adicionar Troca de Arquivos"
-                    value={items}
-                    onChange={setItems}
+                    value={trocaArquivos}
+                    onChange={e => dispatch(addTrocaArquivos(e))}
                     itemFactory={newItem}
-                    getKey={(it) => it.id}
                     addButtonProps={{ sx: { width: '302px' } }}
-                    onDelete={(item, index) => {
-                        alert(`Usuário removido: ${item.nome || '(sem nome)'} — posição ${index + 1}`);
+                    onDelete={(_, index) => {
+                        dispatch(removeTrocaArquivoByIndex(index))
                     }}
                     renderContent={({ item, index, update }) => ({
                         header: (
@@ -42,18 +47,24 @@ const TrocaArquivos = () => {
                                 <Datepicker
                                     title='Período'
                                     titlePosition="side"
-                                    dateDefault={"02/03/2025"}
-                                    onDateChange={setDate}
+                                    dateDefault={formatarDDMMYYYY(item.periodo)}
+                                    onDateChange={e => {
+                                        if (e instanceof Date) {
+                                            update({ periodo: e.toISOString() })
+                                        }
+                                    }}
                                     minDate={new Date(2000, 0, 1)}
                                     maxDate={new Date(2025, 11, 31)}
                                     message="Selecione uma data válida dentro do período."
                                     sx={{ alignContent: 'center', paddingTop: 0.3 }}
                                 />
-                                <TextField
-                                    label='Nome do Arquivo'
-                                    value={nomesArquivos}
-                                    onChange={setNomesArquivos}
-                                    inputProps={{ sx: { width: '482px' } }}
+                                <SelectOptions
+                                    value={item.nomeArquivo}
+                                    label={"Nome do arquivo"}
+                                    options={arquivos}
+                                    placeholder="Selecione o arquivo"
+                                    onChange={(e) => update({nomeArquivo:e})}
+                                    boxOptionSx={{ width: '581px' }}
                                 />
                             </Box>
                         ),
@@ -62,7 +73,11 @@ const TrocaArquivos = () => {
                                 <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
                                     Enviar arquivo
                                 </Typography>
-                                <FileUpload />
+                                <FileUpload
+                                    files={item.arquivos}
+                                    onFilesChange={e => update({ arquivos: e })}
+                                    sendFiles={fakeSendFiles}
+                                />
                             </Box>
                         )
                     })}
