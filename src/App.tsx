@@ -19,10 +19,10 @@ function App() {
   return (
     <Box sx={{ margin: '5px' }}>
       {/* <InformacoesGerais /> */}
-      {/* <Newave /> */}
-      {/* <Gevazp/> */}
+      <Newave />
+      {/* <Gevazp /> */}
       {/* <Decomp /> */}
-      <Dessem />
+      {/* <Dessem /> */}
       {/* <DateRange
             title="Selecione o Horizonte"
             defaultValues={{ startDate: null, endDate: null }}

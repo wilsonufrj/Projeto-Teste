@@ -26,13 +26,13 @@ const TendenciaHidrologia = () => {
                             onChange={e => dispatch(setTipoVazpast(Number(e)))}
                             labelPosition="side"
                             horizontal={true}
-                            sx={{margin:'0px'}}
+                            sx={{ margin: '0px' }}
                             lista={[{ id: 0, descricao: 'Todo horizonte ree' },
                             { id: 1, descricao: 'Horizonte por posto' },
                             { id: 2, descricao: 'Horizonte parcial' }]}
                         />
                         <Datepicker
-                            disabled={tendenciaHidrologica.tipoVazpast === 2}
+                            disabled={tendenciaHidrologica.tipoVazpast !== 2}
                             title='Data de início por posto'
                             titlePosition="side"
                             dateDefault={formatarDDMMYYYY(tendenciaHidrologica.dataInicioPorPosto)}
@@ -44,7 +44,7 @@ const TendenciaHidrologia = () => {
                             minDate={new Date(2000, 0, 1)}
                             maxDate={new Date(2025, 11, 31)}
                             message="Selecione uma data válida dentro do período."
-                            sx={{ alignContent: 'start', paddingTop: 0}}
+                            sx={{ alignContent: 'start', paddingTop: 0 }}
                         />
                     </Box>
                     <OptionButton

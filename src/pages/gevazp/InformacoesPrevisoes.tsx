@@ -1,12 +1,13 @@
 import { FileUpload, OptionButton, Tab, TextField } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setTipoMensal } from "./feature/gevazpSlice";
+import { setNomeArquivoMensal, setNomeArquivoSemanal, setTipoMensal, setTipoSemanal, updateArquivoMensal, updateArquivoSemanal } from "./feature/gevazpSlice";
+import { fakeSendFiles } from "../../utils/utils";
 
 const InformacoesPrevisoes = () => {
 
     const dispatch = useAppDispatch()
-    const informacoesPrevisoes = useAppSelector(state=> state.gevazp.informacoesPrevisoes)
+    const informacoesPrevisoes = useAppSelector(state => state.gevazp.informacoesPrevisoes)
 
     const mensal = () => {
         return (
@@ -14,7 +15,7 @@ const InformacoesPrevisoes = () => {
                 <OptionButton
                     value={informacoesPrevisoes.tipoMensal}
                     sx={{ marginTop: '60px' }}
-                    onChange={e=> dispatch(setTipoMensal(Number(e)))}
+                    onChange={e => dispatch(setTipoMensal(Number(e)))}
                     label="Tipo"
                     labelPosition="side"
                     horizontal={true}
@@ -27,8 +28,8 @@ const InformacoesPrevisoes = () => {
                     <TextField
                         sx={{ margin: 0 }}
                         label='Arquivo'
-                        value={nomeArquivo}
-                        onChange={setNomeArquivo}
+                        value={informacoesPrevisoes.nomeArquivoMensal}
+                        onChange={e => dispatch(setNomeArquivoMensal(e))}
                         inputProps={{
                             placeholder: "Selecione o arquivo",
                             style: { width: '498px' }
@@ -39,20 +40,24 @@ const InformacoesPrevisoes = () => {
                     <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
                         Enviar arquivo
                     </Typography>
-                    <FileUpload />
+                    <FileUpload
+                        files={informacoesPrevisoes.arquivoMensal}
+                        onFilesChange={files => dispatch(updateArquivoMensal(files))}
+                        sendFiles={fakeSendFiles}
+                    />
                 </Box>
 
             </Stack>
         )
     }
 
-     const semanal = () => {
+    const semanal = () => {
         return (
             <Stack gap={'50px'}>
                 <OptionButton
-                    value={number}
+                    value={informacoesPrevisoes.tipoSemanal}
                     sx={{ marginTop: '60px' }}
-                    onChange={setNumber}
+                    onChange={e => dispatch(setTipoSemanal(Number(e)))}
                     label="Tipo"
                     labelPosition="side"
                     horizontal={true}
@@ -65,8 +70,8 @@ const InformacoesPrevisoes = () => {
                     <TextField
                         sx={{ margin: 0 }}
                         label='Arquivo'
-                        value={nomeArquivo}
-                        onChange={setNomeArquivo}
+                        value={informacoesPrevisoes.nomeArquivoSemanal}
+                        onChange={e => dispatch(setNomeArquivoSemanal(e))}
                         inputProps={{
                             placeholder: "Selecione o arquivo",
                             style: { width: '498px' }
@@ -77,7 +82,11 @@ const InformacoesPrevisoes = () => {
                     <Typography sx={{ fontSize: '16px', fontWeight: 400, lineHeight: "120%", marginBottom: '15px' }}>
                         Enviar arquivo
                     </Typography>
-                    <FileUpload />
+                    <FileUpload
+                        files={informacoesPrevisoes.arquivoSemanal}
+                        onFilesChange={files => dispatch(updateArquivoSemanal(files))}
+                        sendFiles={fakeSendFiles}
+                    />
                 </Box>
 
             </Stack>
@@ -86,7 +95,7 @@ const InformacoesPrevisoes = () => {
 
     const tabsItens = [
         { label: "Mensais", component: mensal() },
-        { label: "Semanais", component:semanal() }
+        { label: "Semanais", component: semanal() }
     ]
 
     return (

@@ -13,7 +13,7 @@ import ViradaAnos from './ViradaAnos';
 const Newave = () => {
 
     const SECTIONS = [
-        { id: 'informacoes-iniciais-section', label: 'Informações iniciais', component: <InformacoesIniciais /> },
+        //{ id: 'informacoes-iniciais-section', label: 'Informações iniciais', component: <InformacoesIniciais /> },
         //{ id: 'gerenciador-pl-section', label: 'Gerenciador de PL', component: <GerenciadorPL /> },
         { id: 'troca-arquivo-section', label: 'Troca de arquivos', component: <TrocaArquivos /> },
         //{ id: 'troca-versao-section', label: 'Troca de versoes', component: <TrocaVersoes /> },
