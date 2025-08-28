@@ -21,8 +21,8 @@ function App() {
       {/* <InformacoesGerais /> */}
       {/* <Newave /> */}
       {/* <Gevazp/> */}
-      <Decomp />
-      {/* <Dessem /> */}
+      {/* <Decomp /> */}
+      <Dessem />
       {/* <DateRange
             title="Selecione o Horizonte"
             defaultValues={{ startDate: null, endDate: null }}

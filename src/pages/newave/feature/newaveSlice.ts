@@ -92,7 +92,7 @@ const initialState: NewaveTypes = {
 }
 
 const newaveSlice = createSlice({
-  name: 'informacoesGeraisNewave',
+  name: 'newave',
   initialState,
   reducers: {
     resetState: () => initialState,

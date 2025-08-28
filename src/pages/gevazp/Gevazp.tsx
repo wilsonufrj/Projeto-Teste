@@ -8,8 +8,8 @@ import InformacoesPrevisoes from './InformacoesPrevisoes';
 const Gevazp = ()=>{
 
     const SECTIONS = [
-        { id: 'informacoes-iniciais-section', label: 'Informações iniciais', component: <InformacoesIniciais /> },
-        { id: 'troca-versoes-section', label: 'Troca de versões', component: <TrocaVersoes/> },
+       // { id: 'informacoes-iniciais-section', label: 'Informações iniciais', component: <InformacoesIniciais /> },
+       // { id: 'troca-versoes-section', label: 'Troca de versões', component: <TrocaVersoes/> },
         { id: 'informacoes-previsoes-section', label: 'Informações de previsões', component: <InformacoesPrevisoes/> }
 
     ];
