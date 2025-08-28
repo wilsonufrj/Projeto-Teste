@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
 const PlanilhaResultado = () => {
-    const [selecionarTodas, setSelecionarTodas] = useState<boolean>(false);
+    const [selecionarTodasPlanilhas, setselecionarTodasPlanilhas] = useState<boolean>(true);
     const [custoMarginalSubmercados, setCustoMarginalSubmercado] = useState<SwitchItem[]>([
         { id: '1', label: 'PDOCMOSIST', checked: true, message: 'Informações planilha 1' },
        
@@ -40,10 +40,11 @@ const PlanilhaResultado = () => {
             <Box>
                 <SwitchLabel
                     label="Selecionar todas"
-                    checked={selecionarTodas}
+                    checked={selecionarTodasPlanilhas}
                     labelPlacement="start"
-                    message="Switch para diminuir automaticamente o horizonte de estudo"
-                    onChange={(_event, checked) => setSelecionarTodas(checked)} />
+                    // message="Switch para diminuir automaticamente o horizonte de estudo"
+                    onChange={(_event, checked) => setselecionarTodasPlanilhas(checked)} 
+                    />
 
                 <Stack>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap:'30px' }}>

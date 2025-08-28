@@ -24,7 +24,7 @@ const AtualizacaoDeck = () => {
                         label="Selecionar todas"
                         checked={selecionarTodas}
                         labelPlacement="start"
-                        message="Switch para diminuir automaticamente o horizonte de estudo"
+                        // message="Switch para diminuir automaticamente o horizonte de estudo"
                         onChange={(_event, checked) => setSelecionarTodas(checked)} />
 
                     <Stack direction={"row"} gap={'30px'}>
@@ -32,19 +32,19 @@ const AtualizacaoDeck = () => {
                             label="Atualiza DP"
                             checked={atualizaDP}
                             labelPlacement="start"
-                            message="Switch para diminuir automaticamente o horizonte de estudo"
+                            message="Atualiza o registro DP do entdados.dat"
                             onChange={(_event, checked) => setAtualizaDP(checked)} />
                         <SwitchLabel
                             label="Atualiza IA"
                             checked={atualizaIA}
                             labelPlacement="start"
-                            message="Switch para diminuir automaticamente o horizonte de estudo"
+                            message="SAtualiza o registro IA do entdados.dat"
                             onChange={(_event, checked) => setAtualizaIA(checked)} />
                         <SwitchLabel
                             label="Atualiza Deflant"
                             checked={atualizaDeflant}
                             labelPlacement="start"
-                            message="Switch para diminuir automaticamente o horizonte de estudo"
+                            message="Atualiza o arquivo deflant.dat"
                             onChange={(_event, checked) => setAtualizaDeflant(checked)} />
 
                     </Stack>

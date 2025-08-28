@@ -25,7 +25,7 @@ const InformacoesIniciais = () => {
                 <Box sx={{ display: "flex", justifySelf: 'start', gap: '30px' }}>
                     <SelectOptions
                         value={versao}
-                        label={"Versão do DECOMP"}
+                        label={"Versão do DESSEM"}
                         options={versaoOptions}
                         placeholder="Selecione a versão"
                         onChange={setVersao}
@@ -34,7 +34,7 @@ const InformacoesIniciais = () => {
                     />
                     <SelectOptions
                         value={tentativas}
-                        label={"Tentativas"}
+                        label={"Tentativas de viabilização"}
                         options={tentativasOptions}
                         placeholder="0"
                         onChange={setTentativas}
