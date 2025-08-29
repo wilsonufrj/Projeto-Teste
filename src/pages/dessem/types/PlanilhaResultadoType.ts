@@ -1,6 +1,7 @@
+import type { SwitchItem } from "@cepel/cepel-react-components";
+
 export interface PlanilhaResultadoType{
-    selecionarTodasPlanilhas:boolean,
-    custoMarginalSubmercados:boolean, // ou é SwitchItem[] ?
-    balancoEnergiaSubmercado:boolean,
-    operacaoUsinasHidraulicas:boolean
+    custoMarginalSubmercados:Array<SwitchItem>,
+    balancoEnergiaSubmercado:Array<SwitchItem>,
+    operacaoUsinasHidraulicas:Array<SwitchItem>
 }

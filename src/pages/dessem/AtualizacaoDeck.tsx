@@ -1,14 +1,22 @@
-import { SwitchLabel } from "@cepel/cepel-react-components";
+import { SwitchCard, SwitchLabel } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import type { AtualizacaoDeckType } from "./types/AtualizacaoDeckType";
+import { setAllCheckedTrueDeck, setAtualizarDeck } from "./feature/DessemSlice";
 
 const AtualizacaoDeck = () => {
+    const dispatch = useAppDispatch()
+    const atualizacaoDecks = useAppSelector((state) => state.dessem.atualizacaoDeck);
 
-    const [selecionarTodas, setSelecionarTodas] = useState<boolean>(false);
-    const [atualizaDP, setAtualizaDP] = useState<boolean>(false);
-    const [atualizaIA, setAtualizaIA] = useState<boolean>(false);
-    const [atualizaDeflant, setAtualizaDeflant] = useState<boolean>(false);
 
+    const handleToggle = (
+        atributo:keyof AtualizacaoDeckType ,
+        index: string,
+    ) => {
+        dispatch(setAtualizarDeck({atributo, index}))
+    };
+
+    const verificaChecked: boolean = Object.keys(atualizacaoDecks).every((atributo) => atualizacaoDecks[atributo as keyof AtualizacaoDeckType].some(item => item.checked));
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -22,31 +30,35 @@ const AtualizacaoDeck = () => {
                 <Box>
                     <SwitchLabel
                         label="Selecionar todas"
-                        checked={selecionarTodas}
+                        checked={verificaChecked}
                         labelPlacement="start"
                         // message="Switch para diminuir automaticamente o horizonte de estudo"
-                        onChange={(_event, checked) => setSelecionarTodas(checked)} />
+                        onChange={(_event, checked) => dispatch(setAllCheckedTrueDeck(checked))} 
+                    />
 
-                    <Stack direction={"row"} gap={'30px'}>
-                        <SwitchLabel
-                            label="Atualiza DP"
-                            checked={atualizaDP}
-                            labelPlacement="start"
-                            message="Atualiza o registro DP do entdados.dat"
-                            onChange={(_event, checked) => setAtualizaDP(checked)} />
-                        <SwitchLabel
-                            label="Atualiza IA"
-                            checked={atualizaIA}
-                            labelPlacement="start"
-                            message="SAtualiza o registro IA do entdados.dat"
-                            onChange={(_event, checked) => setAtualizaIA(checked)} />
-                        <SwitchLabel
-                            label="Atualiza Deflant"
-                            checked={atualizaDeflant}
-                            labelPlacement="start"
-                            message="Atualiza o arquivo deflant.dat"
-                            onChange={(_event, checked) => setAtualizaDeflant(checked)} />
+                    <Stack>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap:'30px' }}>
+                            <SwitchCard
+                                title="Atualiza DP"
+                                switches={atualizacaoDecks.atualizaDP}
+                                labelPlacement="start"
+                                onToggle={(id) => handleToggle("atualizaDP", id)} 
+                            />
 
+                            <SwitchCard
+                                title="Atualiza IA"
+                                switches={atualizacaoDecks.atualizaIA}
+                                labelPlacement="start"
+                                onToggle={(id) => handleToggle("atualizaIA", id)}
+                            />
+
+                            <SwitchCard
+                                title="Atualiza Deflant"
+                                switches={atualizacaoDecks.atualizaDeflant}
+                                labelPlacement="start"
+                                onToggle={(id) => handleToggle("atualizaDeflant", id)}
+                            />
+                        </Box>
                     </Stack>
                 </Box>
             </Stack>

@@ -1,6 +1,7 @@
+import type { SwitchItem } from "@cepel/cepel-react-components";
+
 export interface AtualizacaoDeckType {
-    selecionarTodas: boolean,
-    atualizaDP: boolean,
-    atualizaIA: boolean,
-    atualizaDeflant: boolean
+    atualizaDP: Array<SwitchItem>,
+    atualizaIA: Array<SwitchItem>,
+    atualizaDeflant: Array<SwitchItem>
 }

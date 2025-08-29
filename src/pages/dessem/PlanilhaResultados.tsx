@@ -1,34 +1,22 @@
-import { SwitchCard, SwitchLabel, type SwitchItem } from "@cepel/cepel-react-components";
+import { SwitchCard, SwitchLabel } from "@cepel/cepel-react-components";
 import { Box, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setAllCheckedTruePlanilhas, setSelecionarPlanilhas } from "./feature/DessemSlice";
+import type { PlanilhaResultadoType } from "./types/PlanilhaResultadoType";
 
 const PlanilhaResultado = () => {
-    const [selecionarTodasPlanilhas, setselecionarTodasPlanilhas] = useState<boolean>(true);
-    const [custoMarginalSubmercados, setCustoMarginalSubmercado] = useState<SwitchItem[]>([
-        { id: '1', label: 'PDOCMOSIST', checked: true, message: 'Informações planilha 1' },
-       
-    ]);
-
-    const [balancoEnergiaSubmercado, setBalancoEnergiaSubmercado] = useState<SwitchItem[]>([
-        { id: '1', label: 'PDOSIST', checked: true, message: 'Informações planilha 1' },
-    ]);
-
-    const [operacaoUsinasHidraulicas, setOperacaoUsinasHidraulicas] = useState<SwitchItem[]>([
-        { id: '1', label: 'PDOHIDR', checked: true, message: 'Informações planilha 1' },
-       
-    ]);
+    const dispatch = useAppDispatch()
+    const planilhaResultados = useAppSelector((state) => state.dessem.planilhaResultado);
 
 
     const handleToggle = (
-        id: string,
-        setState: React.Dispatch<React.SetStateAction<SwitchItem[]>>
+        atributo:keyof PlanilhaResultadoType ,
+        index: string,
     ) => {
-        setState((prev) =>
-            prev.map((item) =>
-                item.id === id ? { ...item, checked: !item.checked } : item
-            )
-        );
+        dispatch(setSelecionarPlanilhas({atributo, index}))
     };
+
+    const verificaChecked: boolean = Object.keys(planilhaResultados).every((atributo) => planilhaResultados[atributo as keyof PlanilhaResultadoType].some(item => item.checked));
 
     return (
         <Box sx={{ width: '100' }}>
@@ -40,30 +28,30 @@ const PlanilhaResultado = () => {
             <Box>
                 <SwitchLabel
                     label="Selecionar todas"
-                    checked={selecionarTodasPlanilhas}
+                    checked={verificaChecked}
                     labelPlacement="start"
                     // message="Switch para diminuir automaticamente o horizonte de estudo"
-                    onChange={(_event, checked) => setselecionarTodasPlanilhas(checked)} 
-                    />
+                    onChange={(_event, checked) => dispatch(setAllCheckedTruePlanilhas(checked))} 
+                />
 
                 <Stack>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap:'30px' }}>
                         <SwitchCard
                             title="Custo Marginal - Submercados"
-                            switches={custoMarginalSubmercados}
-                            onToggle={(id) => handleToggle(id, setCustoMarginalSubmercado)}
+                            switches={planilhaResultados.custoMarginalSubmercados}
+                            onToggle={(id) => handleToggle("custoMarginalSubmercados", id)}
                         />
 
                         <SwitchCard
                             title="Balanço de energia - Submercados"
-                            switches={balancoEnergiaSubmercado}
-                            onToggle={(id) => handleToggle(id, setBalancoEnergiaSubmercado)}
+                            switches={planilhaResultados.balancoEnergiaSubmercado}
+                            onToggle={(id) => handleToggle("balancoEnergiaSubmercado", id)}
                         />
 
                         <SwitchCard
                             title="Operação usinas hidráulicas"
-                            switches={operacaoUsinasHidraulicas}
-                            onToggle={(id) => handleToggle(id, setOperacaoUsinasHidraulicas)}
+                            switches={planilhaResultados.operacaoUsinasHidraulicas}
+                            onToggle={(id) => handleToggle("operacaoUsinasHidraulicas", id)}
                         />
                     </Box>
                     

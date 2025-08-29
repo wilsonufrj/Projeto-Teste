@@ -3,7 +3,7 @@ import type { InformacoesIniciaisType } from "../types/InformacoesIniciaisType.t
 import type { AtualizacaoDeckType } from "../types/AtualizacaoDeckType.ts";
 import type { CenariosType } from "../types/CenariosType.ts";
 import type { PlanilhaResultadoType } from "../types/PlanilhaResultadoType.ts";
-import type { UploadFile } from "@cepel/cepel-react-components";
+import type { SwitchItem } from "@cepel/cepel-react-components";
 interface DessemType {
     informacoesIniciais: InformacoesIniciaisType,
     atualizacaoDeck: AtualizacaoDeckType,
@@ -18,18 +18,28 @@ const initialState: DessemType = {
         ativaCrossover: false,
     } as InformacoesIniciaisType,
     atualizacaoDeck: {
-        selecionarTodas: false,
-        atualizaDP: false,
-        atualizaIA: false,
-        atualizaDeflant: false
-    } as AtualizacaoDeckType,
+        atualizaDP: [
+            { id: '1', label: 'Atualiza DP', checked: true, message: 'Atualiza o registro DP do entdados.dat' },
+        ],
+        atualizaIA: [
+            { id: '1', label: 'Atualiza IA', checked: true, message: 'Atualiza o registro IA do entdados.dat' },
+        ],
+        atualizaDeflant: [
+            { id: '1', label: 'Atualiza Deflant', checked: true, message: 'Atualiza o arquivo deflant.dat' },
+        ],
+    },
     cenarios: [],
     planilhaResultado: {
-        selecionarTodasPlanilhas:false,
-        custoMarginalSubmercados:false, // ou é SwitchItem[] ?
-        balancoEnergiaSubmercado:false,
-        operacaoUsinasHidraulicas:false
-    } as PlanilhaResultadoType
+        custoMarginalSubmercados: [
+            { id: '1', label: 'PDOCMOSIST', checked: true, message: 'Informações planilha 1' },
+        ],
+        balancoEnergiaSubmercado: [
+            { id: '1', label: 'PDOSIST', checked: true, message: 'Informações planilha 1' },
+        ],
+        operacaoUsinasHidraulicas: [
+            { id: '1', label: 'PDOHIDR', checked: true, message: 'Informações planilha 1' },
+        ],
+    }
 }
 
 const dessemSlice = createSlice({
@@ -45,37 +55,32 @@ const dessemSlice = createSlice({
         setAtivaCrossover: (state, action: PayloadAction<boolean>) => {
             state.informacoesIniciais.ativaCrossover = action.payload;
         },
-        setSelecionarTodas: (state, action: PayloadAction<boolean>) => {
-            state.atualizacaoDeck.selecionarTodas = action.payload;
+        setAtualizarDeck: (state,action: PayloadAction<{ atributo: keyof AtualizacaoDeckType; index: string }>) => {
+            const { atributo, index } = action.payload;
+            const lista:Array<SwitchItem> = state.atualizacaoDeck[atributo]
+            state.atualizacaoDeck[atributo] = lista.map((item) => item.id === index ? { ...item, checked: !item.checked } : item)
         },
-        setAtualizaDP: (state, action: PayloadAction<boolean>) => {
-            state.atualizacaoDeck.atualizaDP = action.payload;
-        },
-        setAtualizaIA: (state, action: PayloadAction<boolean>) => {
-            state.atualizacaoDeck.atualizaIA = action.payload;
-        },
-        setAtualizaDeflant: (state, action: PayloadAction<boolean>) => {
-            state.atualizacaoDeck.atualizaDeflant = action.payload;
-        },
-        addCenarios: (state, action: PayloadAction<CenariosType[]>) => {
-            state.cenarios = action.payload;
+        setAllCheckedTrueDeck: (state,action: PayloadAction<boolean>) => {
+            Object.keys(state.atualizacaoDeck).forEach((atributo) => {
+            const arr:Array<SwitchItem> = state.atualizacaoDeck[atributo as keyof AtualizacaoDeckType];
+            state.atualizacaoDeck[atributo as keyof AtualizacaoDeckType] = arr.map(item => ({ ...item, checked: action.payload }));  
+            });
         },
         removeCenarioByIndex: (state, action: PayloadAction<number>) => {
             if (action.payload >= 0 && action.payload < state.cenarios.length) {
                 state.cenarios.splice(action.payload, 1);
             }
         },
-        setSelecionarTodasPlanilhas: (state, action: PayloadAction<boolean>) => {
-            state.planilhaResultado.selecionarTodas = action.payload
+        setSelecionarPlanilhas: (state,action: PayloadAction<{ atributo: keyof PlanilhaResultadoType; index: string }>) => {
+            const { atributo, index } = action.payload;
+            const lista:Array<SwitchItem> = state.planilhaResultado[atributo]
+            state.planilhaResultado[atributo] = lista.map((item) => item.id === index ? { ...item, checked: !item.checked } : item)
         },
-        setCustoMarginalSubmercados: (state, action: PayloadAction<boolean>) => {
-            state.planilhaResultado.custoMarginalSubmercados = action.payload;
-        },
-        setBalancoEnergiaSubmercado: (state, action: PayloadAction<boolean>) => {
-            state.planilhaResultado.balancoEnergiaSubmercado = action.payload;
-        },
-        setOperacaoUsinasHidraulicas: (state, action: PayloadAction<boolean>) => {
-            state.planilhaResultado.operacaoUsinasHidraulicas = action.payload;
+        setAllCheckedTruePlanilhas: (state,action: PayloadAction<boolean>) => {
+            Object.keys(state.planilhaResultado).forEach((atributo) => {
+            const arr:Array<SwitchItem> = state.planilhaResultado[atributo as keyof PlanilhaResultadoType];
+            state.planilhaResultado[atributo as keyof PlanilhaResultadoType] = arr.map(item => ({ ...item, checked: action.payload }));  
+            });
         }
     }
 })
@@ -84,16 +89,11 @@ export const {
     setVersao,
     setTentativas,
     setAtivaCrossover,
-    setSelecionarTodas,
-    setAtualizaDP,
-    setAtualizaIA,
-    setAtualizaDeflant,
-    addCenarios,
+    setAtualizarDeck,
+    setAllCheckedTrueDeck,
     removeCenarioByIndex,
-    setSelecionarTodasPlanilhas,
-    setCustoMarginalSubmercados,
-    setBalancoEnergiaSubmercado,
-    setOperacaoUsinasHidraulicas,
+    setSelecionarPlanilhas,
+    setAllCheckedTruePlanilhas,
 } = dessemSlice.actions;
 export default dessemSlice.reducer;
 
